@@ -1,0 +1,333 @@
+openapi: 3.0.0
+info:
+  title: my-todo-api
+  description: テスト用todo
+  contact:
+    name: HDYS-TTBYS
+    url: https://my-todo.tthd-app.link/support
+    email: tatehide151@outlook.jp
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: "1.0"
+servers:
+  - url: "http://localhost:8080"
+    description: "Development server"
+  - url: "https://my-todo.tthd-app.link"
+    description: "Production server"
+paths:
+  "/api/todo/{id}":
+    description: "description of /api/todo/{id}"
+    parameters:
+      - schema:
+          type: integer
+          minimum: 1
+          example: 1
+        name: id
+        in: path
+        description: 既存のtodoのID
+        required: true
+    get:
+      summary: Get Todo Info by Todo ID
+      tags: [todo]
+      operationId: get-todo-id
+      description: todo IDが一致するtodoの情報を取得
+      responses:
+        "200":
+          description: Todo Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ToDo"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Todo Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      summary: Delete Todo Info by Todo ID
+      tags: [todo]
+      operationId: delete-todo-id
+      description: todo IDが一致するtodoの情報を削除
+      responses:
+        "200":
+          description: Todo Deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Todo Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    patch:
+      summary: Update Todo Info by Todo ID
+      tags: [todo]
+      operationId: delete-todo-id
+      description: todo IDが一致するtodoの情報を更新
+      responses:
+        "200":
+          description: Todo Patched
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ToDo"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Todo Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                title:
+                  type: string
+                  description: Todoのタイトル
+                  example: Make French Toast
+                  minLength: 1
+                  maxLength: 128
+                description:
+                  type: string
+                  example: 美味しいフレンチトースト作ってね
+                  maxLength: 255
+                assigin_person:
+                  type: string
+                  example: 山田 太郎
+                  maxLength: 20
+                  minLength: 1
+              required:
+                - title
+                - assigin_person
+        description: APIに必要なフィールドを投稿して、新しいToDoを作成します
+  "/api/todo":
+    post:
+      summary: Create New Todo
+      operationId: post-todo
+      description: Todoを新規で作成する
+      tags: [todo]
+      responses:
+        "201":
+          description: Todo Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ToDo"
+        "400":
+          description: Missing Required Information(Bad Request)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "409":
+          description: Todo Already Exits
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                title:
+                  type: string
+                  description: Todoのタイトル
+                  example: Make French Toast
+                  minLength: 1
+                  maxLength: 128
+                description:
+                  type: string
+                  example: 美味しいフレンチトースト作ってね
+                  maxLength: 255
+                assigin_person:
+                  type: string
+                  example: 山田 太郎
+                  maxLength: 20
+                  minLength: 1
+              required:
+                - title
+                - assigin_person
+        description: APIに必要なフィールドを投稿して、新しいToDoを作成します
+  "/api/todos":
+    get:
+      summary: Get All Todo
+      operationId: get-todos
+      description: |-
+        すべてのToDoを取得する
+        ただし、ToDoの総数がlimitを超えると、それ以上のToDoは返却されず、代わりに続きのToDo開始位置を示すlast_idが返されます
+      tags: [todo]
+      parameters:
+        - in: query
+          name: offset
+          schema:
+            type: integer
+            default: 0
+          required: true
+          description: 結果セットの収集を開始する前にスキップするアイテムの数
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          required: true
+          description: 返却するアイテムの数
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                  todos:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/ToDo"
+                  last_id:
+                    type: integer
+                required:
+                  - total
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Todo Not Found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  schemas:
+    ToDo:
+      type: object
+      title: ToDo
+      description: Todoオブジェクトの共通スキーマ
+      properties:
+        id:
+          type: integer
+          description: ユニークID
+          example: 1
+          readOnly: true
+        title:
+          type: string
+          description: Todoのタイトル
+          example: Buy Book
+          maxLength: 225
+          minLength: 1
+        description:
+          type: string
+          description: Todoの説明
+          example: 本を買ってきてください
+          maxLength: 255
+          minLength: 1
+        is_complete:
+          type: boolean
+          description: Todoの完了・未完了を示すフラグ（trueが完了）
+          example: false
+        assagin_person:
+          type: string
+          description: Todoを担当する人の名前
+          example: yuta katayama
+          maxLength: 20
+          minLength: 1
+          nullable: true
+        created_at:
+          type: integer
+          format: int64
+          description: Todoが作成された時刻（UNIXタイムで単位は秒）
+          example: 1633480000
+          readOnly: true
+        updated_at:
+          type: integer
+          format: int64
+          description: Todoが更新された時刻（UNIXタイムで単位は秒）
+          example: 1633480000
+          readOnly: true
+      required:
+        - id
+        - title
+        - created_at
+    Error:
+      type: object
+      title: Error
+      description: エラーオブジェクトの共通スキーマ
+      properties:
+        state:
+          type: string
+          description: エラーの種別
+          example: TodoNotFound
+          maxLength: 255
+        message:
+          type: string
+          description: エラーメッセージ
+          maxLength: 255
+          example: Todoが1件も存在しません
+          readOnly: true
+      required:
+        - state
+        - message
