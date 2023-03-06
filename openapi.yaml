@@ -90,7 +90,7 @@ paths:
     patch:
       summary: Update Todo Info by Todo ID
       tags: [todo]
-      operationId: delete-todo-id
+      operationId: update-todo-id
       description: todo IDが一致するtodoの情報を更新
       responses:
         "200":
