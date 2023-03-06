@@ -139,9 +139,14 @@ paths:
                   example: 山田 太郎
                   maxLength: 20
                   minLength: 1
+                is_complete:
+                  type: boolean
+                  description: Todoの完了・未完了を示すフラグ（trueが完了）
+                  example: false
               required:
                 - title
                 - assigin_person
+                - is_complete
         description: APIに必要なフィールドを投稿して、新しいToDoを作成します
   "/api/todo":
     post:
@@ -205,8 +210,8 @@ paths:
       summary: Get All Todo
       operationId: get-todos
       description: |-
-        すべてのToDoを取得する
-        ただし、ToDoの総数がlimitを超えると、それ以上のToDoは返却されず、代わりに続きのToDo開始位置を示すlast_idが返されます
+        すべてのToDoを created_at descで取得する
+        ただし、ToDoの総数が20を超えると、それ以上のToDoは返却されない
       tags: [todo]
       parameters:
         - in: query
@@ -216,15 +221,6 @@ paths:
             default: 0
           required: true
           description: 結果セットの収集を開始する前にスキップするアイテムの数
-        - in: query
-          name: limit
-          schema:
-            type: integer
-            minimum: 1
-            maximum: 100
-            default: 20
-          required: true
-          description: 返却するアイテムの数
       responses:
         "200":
           description: OK
@@ -239,8 +235,6 @@ paths:
                     type: array
                     items:
                       $ref: "#/components/schemas/ToDo"
-                  last_id:
-                    type: integer
                 required:
                   - total
         "400":
