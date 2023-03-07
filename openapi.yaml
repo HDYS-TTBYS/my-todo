@@ -311,11 +311,6 @@ components:
       title: Error
       description: エラーオブジェクトの共通スキーマ
       properties:
-        state:
-          type: string
-          description: エラーの種別
-          example: TodoNotFound
-          maxLength: 255
         message:
           type: string
           description: エラーメッセージ

@@ -7,9 +7,6 @@ package entities
 type Error struct {
 	// Message エラーメッセージ
 	Message *string `json:"message,omitempty"`
-
-	// State エラーの種別
-	State string `json:"state"`
 }
 
 // ToDo Todoオブジェクトの共通スキーマ

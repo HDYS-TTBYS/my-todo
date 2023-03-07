@@ -6,7 +6,10 @@ import (
 	"HDYS-TTBYS/my-todo/ent"
 	"context"
 	"fmt"
+	"net/http"
 	"time"
+
+	"github.com/labstack/echo"
 )
 
 type TodoRepository struct {
@@ -36,14 +39,15 @@ func dataTransform(t *ent.Todo) *entities.ToDo {
 func (tr *TodoRepository) FindMany(offset entities.GetTodosParams) (*entities.ResponseTodos, error) {
 	total, err := tr.ec.Todo.Query().Count(tr.ctx)
 	if err != nil {
-		return nil, fmt.Errorf("failed querying total count todo: %w", err)
+		return nil, echo.NewHTTPError(http.StatusInternalServerError, fmt.Errorf("failed querying total count todo: %w", err))
 	}
 	t, err := tr.ec.Todo.Query().
 		Limit(20).
 		Offset(offset.Offset).
+		Order(ent.Desc("created_at")).
 		All(tr.ctx)
 	if err != nil {
-		return nil, fmt.Errorf("failed querying todos: %w", err)
+		return nil, echo.NewHTTPError(http.StatusInternalServerError, fmt.Errorf("failed querying todos: %w", err))
 	}
 	var todos []*entities.ToDo
 	for _, v := range t {
@@ -58,7 +62,7 @@ func (tr *TodoRepository) FindMany(offset entities.GetTodosParams) (*entities.Re
 func (tr *TodoRepository) FindById(id int) (*entities.ToDo, error) {
 	t, err := tr.ec.Todo.Get(tr.ctx, id)
 	if err != nil {
-		return nil, fmt.Errorf("failed querying todo: %w", err)
+		return nil, echo.NewHTTPError(http.StatusInternalServerError, fmt.Errorf("failed querying todo: %w", err))
 	}
 	rt := dataTransform(t)
 	return rt, nil
@@ -71,7 +75,7 @@ func (tr *TodoRepository) Create(todo *entities.PostTodoJSONBody) (*entities.ToD
 		SetDescription(*todo.Description).
 		SetTitle(todo.Title).Save(tr.ctx)
 	if err != nil {
-		return nil, fmt.Errorf("failed creating todo: %w", err)
+		return nil, echo.NewHTTPError(http.StatusInternalServerError, fmt.Errorf("failed creating todo: %w", err))
 	}
 	rt := dataTransform(t)
 	return rt, nil
@@ -84,7 +88,7 @@ func (tr *TodoRepository) Update(todo *entities.UpdateTodoIdJSONBody, id int) (*
 		SetIsComplete(todo.IsComplete).SetTitle(todo.Title).
 		SetUpdatedAt(time.Now()).Save(tr.ctx)
 	if err != nil {
-		return nil, fmt.Errorf("failed updating todo: %w", err)
+		return nil, echo.NewHTTPError(http.StatusInternalServerError, fmt.Errorf("failed updating todo: %w", err))
 	}
 	rt := dataTransform(t)
 	return rt, nil
@@ -93,7 +97,7 @@ func (tr *TodoRepository) Update(todo *entities.UpdateTodoIdJSONBody, id int) (*
 func (tr *TodoRepository) Delete(id int) error {
 	err := tr.ec.Todo.DeleteOneID(id).Exec(tr.ctx)
 	if err != nil {
-		return fmt.Errorf("failed deleting todo: %w", err)
+		return echo.NewHTTPError(http.StatusInternalServerError, fmt.Errorf("failed deleting todo: %w", err))
 	}
 	return nil
 }
