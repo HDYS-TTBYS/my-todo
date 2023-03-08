@@ -5,7 +5,7 @@ go 1.20
 require (
 	entgo.io/ent v0.11.9
 	github.com/labstack/echo v3.3.10+incompatible
-	github.com/mattn/go-sqlite3 v1.14.16
+	github.com/lib/pq v1.10.7
 )
 
 require (
