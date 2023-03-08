@@ -12,13 +12,13 @@ import (
 	"github.com/labstack/echo"
 )
 
-type TodoRepository struct {
+type todoRepository struct {
 	ec  *ent.Client
 	ctx context.Context
 }
 
 func NewTodoRepository(ec *ent.Client, ctx context.Context) repository.ITodoRepository {
-	return &TodoRepository{ec, ctx}
+	return &todoRepository{ec, ctx}
 }
 
 // ent.Todo -> entities.ToDo
@@ -35,7 +35,7 @@ func dataTransform(t *ent.Todo) *entities.ToDo {
 		UpdatedAt:     &ua}
 }
 
-func (tr *TodoRepository) FindMany(offset entities.GetTodosParams) (*entities.ResponseTodos, error) {
+func (tr *todoRepository) FindMany(offset entities.GetTodosParams) (*entities.ResponseTodos, error) {
 	total, err := tr.ec.Todo.Query().Count(tr.ctx)
 	if err != nil {
 		return nil, echo.NewHTTPError(http.StatusInternalServerError, fmt.Errorf("failed querying total count todo: %w", err))
@@ -58,7 +58,7 @@ func (tr *TodoRepository) FindMany(offset entities.GetTodosParams) (*entities.Re
 	}, nil
 }
 
-func (tr *TodoRepository) FindById(id int) (*entities.ToDo, error) {
+func (tr *todoRepository) FindById(id int) (*entities.ToDo, error) {
 	t, err := tr.ec.Todo.Get(tr.ctx, id)
 	if err != nil {
 		return nil, echo.NewHTTPError(http.StatusInternalServerError, fmt.Errorf("failed querying todo: %w", err))
@@ -67,7 +67,7 @@ func (tr *TodoRepository) FindById(id int) (*entities.ToDo, error) {
 	return rt, nil
 }
 
-func (tr *TodoRepository) Create(todo *entities.PostTodoJSONBody) (*entities.ToDo, error) {
+func (tr *todoRepository) Create(todo *entities.PostTodoJSONBody) (*entities.ToDo, error) {
 	t, err := tr.ec.Todo.Create().
 		SetAssaginPerson(todo.AssiginPerson).
 		SetCreatedAt(time.Now()).
@@ -80,7 +80,7 @@ func (tr *TodoRepository) Create(todo *entities.PostTodoJSONBody) (*entities.ToD
 	return rt, nil
 }
 
-func (tr *TodoRepository) Update(todo *entities.UpdateTodoIdJSONBody, id int) (*entities.ToDo, error) {
+func (tr *todoRepository) Update(todo *entities.UpdateTodoIdJSONBody, id int) (*entities.ToDo, error) {
 	t, err := tr.ec.Todo.UpdateOneID(id).
 		SetAssaginPerson(todo.AssiginPerson).
 		SetDescription(*todo.Description).
@@ -93,7 +93,7 @@ func (tr *TodoRepository) Update(todo *entities.UpdateTodoIdJSONBody, id int) (*
 	return rt, nil
 }
 
-func (tr *TodoRepository) Delete(id int) error {
+func (tr *todoRepository) Delete(id int) error {
 	err := tr.ec.Todo.DeleteOneID(id).Exec(tr.ctx)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, fmt.Errorf("failed deleting todo: %w", err))

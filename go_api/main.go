@@ -10,10 +10,9 @@ import (
 )
 
 func main() {
-	// client, err := ent.Open("sqlite3", "file:ent?mode=memory&cache=shared&_fk=1")
 	client, err := ent.Open("postgres", "host=postgres port=5432 user=api_user dbname=api_db password=password sslmode=disable")
 	if err != nil {
-		log.Fatalf("failed opening connection to sqlite: %v", err)
+		log.Fatalf("failed opening connection to postgres: %v", err)
 	}
 	defer client.Close()
 	// Run the auto migration tool.
