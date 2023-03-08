@@ -23,7 +23,7 @@ func NewTodoUseCase(tr repository.ITodoRepository) ITodoUseCase {
 }
 
 func (tu todoUseCase) FindMany(offset int) (todo *entities.ResponseTodos, err error) {
-	rtodo, err := tu.todoRepository.FindMany(entities.GetTodosParams{Offset: offset})
+	rtodo, err := tu.todoRepository.FindMany(&entities.GetTodosParams{Offset: offset})
 	if err != nil {
 		return nil, err
 	}

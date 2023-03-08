@@ -3,9 +3,14 @@ package main
 import (
 	"HDYS-TTBYS/my-todo/ent"
 	"HDYS-TTBYS/my-todo/ent/migrate"
+	infra "HDYS-TTBYS/my-todo/infrastructure/repository"
+	"HDYS-TTBYS/my-todo/interfaces/handler"
+	"HDYS-TTBYS/my-todo/usecase"
 	"context"
 	"log"
 
+	"github.com/labstack/echo"
+	"github.com/labstack/echo/middleware"
 	_ "github.com/lib/pq"
 )
 
@@ -15,12 +20,38 @@ func main() {
 		log.Fatalf("failed opening connection to postgres: %v", err)
 	}
 	defer client.Close()
+	context := context.Background()
 	// Run the auto migration tool.
 	if err := client.Schema.Create(
-		context.Background(),
+		context,
 		migrate.WithDropIndex(true),
 		migrate.WithDropColumn(true),
 	); err != nil {
 		log.Fatalf("failed creating schema resources: %v", err)
 	}
+
+	e := echo.New()
+
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins:     []string{"https://tthd-app.link", "http://localhost:3000"},
+		AllowHeaders:     []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
+		AllowCredentials: true,
+		AllowMethods:     []string{"GET", "PUT", "POST", "DELETE", "UPDATE", "OPTIONS"},
+	}))
+
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
+	e.Use(middleware.RequestID())
+	e.Use(middleware.Secure())
+
+	todoInfra := infra.NewTodoRepository(client, context)
+	todoUsecase := usecase.NewTodoUseCase(todoInfra)
+	todoHandler := handler.NewTodoHandler(todoUsecase)
+	api := e.Group("/api")
+	api.GET("/todos", todoHandler.FindMany)
+	api.GET("/todo/:id", todoHandler.FindByID)
+	api.DELETE("/todo/:id", todoHandler.Delete)
+	api.PATCH("/todo/:id", todoHandler.Update)
+	api.POST("/todo", todoHandler.Create)
+	e.Logger.Fatal(e.Start(":8080"))
 }
