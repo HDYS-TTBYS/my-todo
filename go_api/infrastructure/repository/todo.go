@@ -33,7 +33,6 @@ func dataTransform(t *ent.Todo) *entities.ToDo {
 		IsComplete:    &t.IsComplete,
 		Title:         t.Title,
 		UpdatedAt:     &ua}
-
 }
 
 func (tr *TodoRepository) FindMany(offset entities.GetTodosParams) (*entities.ResponseTodos, error) {
