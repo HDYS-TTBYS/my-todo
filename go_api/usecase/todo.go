@@ -23,11 +23,18 @@ func NewTodoUseCase(tr repository.ITodoRepository) ITodoUseCase {
 }
 
 func (tu todoUseCase) FindMany(offset int) (todo *entities.ResponseTodos, err error) {
-	rtodo, err := tu.todoRepository.FindMany(&entities.GetTodosParams{Offset: offset})
+	count, err := tu.todoRepository.TotalCount()
 	if err != nil {
 		return nil, err
 	}
-	return rtodo, err
+	if *count == 0 {
+		return &entities.ResponseTodos{Total: *count, ToDos: []*entities.ToDo{}}, nil
+	}
+	todos, err := tu.todoRepository.FindMany(&entities.GetTodosParams{Offset: offset})
+	if err != nil {
+		return nil, err
+	}
+	return &entities.ResponseTodos{Total: *count, ToDos: todos}, nil
 }
 
 func (tu todoUseCase) FindById(id int) (todo *entities.ToDo, err error) {

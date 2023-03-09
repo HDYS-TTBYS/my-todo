@@ -43,11 +43,7 @@ func (tr *todoRepository) TotalCount() (*int, error) {
 	return &total, nil
 }
 
-func (tr *todoRepository) FindMany(offset *entities.GetTodosParams) (*entities.ResponseTodos, error) {
-	total, err := tr.ec.Todo.Query().Count(tr.ctx)
-	if err != nil {
-		return nil, echo.NewHTTPError(http.StatusInternalServerError, fmt.Errorf("failed querying total count todo: %w", err))
-	}
+func (tr *todoRepository) FindMany(offset *entities.GetTodosParams) ([]*entities.ToDo, error) {
 	t, err := tr.ec.Todo.Query().
 		Limit(20).
 		Offset(offset.Offset).
@@ -60,10 +56,7 @@ func (tr *todoRepository) FindMany(offset *entities.GetTodosParams) (*entities.R
 	for _, v := range t {
 		todos = append(todos, dataTransform(v))
 	}
-	return &entities.ResponseTodos{
-		Total: total,
-		ToDos: todos,
-	}, nil
+	return todos, err
 }
 
 func (tr *todoRepository) FindById(id int) (*entities.ToDo, error) {
