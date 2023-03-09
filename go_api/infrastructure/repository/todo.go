@@ -61,7 +61,7 @@ func (tr *todoRepository) FindMany(offset *entities.GetTodosParams) (*entities.R
 func (tr *todoRepository) FindById(id int) (*entities.ToDo, error) {
 	t, err := tr.ec.Todo.Get(tr.ctx, id)
 	if err != nil {
-		return nil, echo.NewHTTPError(http.StatusInternalServerError, fmt.Errorf("failed querying todo: %w", err))
+		return nil, echo.NewHTTPError(http.StatusNotFound, fmt.Errorf("failed querying todo: %w", err))
 	}
 	rt := dataTransform(t)
 	return rt, nil
@@ -87,7 +87,7 @@ func (tr *todoRepository) Update(todo *entities.UpdateTodoIdJSONBody, id int) (*
 		SetIsComplete(todo.IsComplete).SetTitle(todo.Title).
 		SetUpdatedAt(time.Now()).Save(tr.ctx)
 	if err != nil {
-		return nil, echo.NewHTTPError(http.StatusInternalServerError, fmt.Errorf("failed updating todo: %w", err))
+		return nil, echo.NewHTTPError(http.StatusNotFound, fmt.Errorf("failed updating todo: %w", err))
 	}
 	rt := dataTransform(t)
 	return rt, nil
@@ -96,7 +96,7 @@ func (tr *todoRepository) Update(todo *entities.UpdateTodoIdJSONBody, id int) (*
 func (tr *todoRepository) Delete(id int) error {
 	err := tr.ec.Todo.DeleteOneID(id).Exec(tr.ctx)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusInternalServerError, fmt.Errorf("failed deleting todo: %w", err))
+		return echo.NewHTTPError(http.StatusNotFound, fmt.Errorf("failed deleting todo: %w", err))
 	}
 	return nil
 }
