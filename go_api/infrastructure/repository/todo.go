@@ -35,6 +35,14 @@ func dataTransform(t *ent.Todo) *entities.ToDo {
 		UpdatedAt:     &ua}
 }
 
+func (tr *todoRepository) TotalCount() (*int, error) {
+	total, err := tr.ec.Todo.Query().Count(tr.ctx)
+	if err != nil {
+		return nil, echo.NewHTTPError(http.StatusInternalServerError, fmt.Errorf("failed querying total count todo: %w", err))
+	}
+	return &total, nil
+}
+
 func (tr *todoRepository) FindMany(offset *entities.GetTodosParams) (*entities.ResponseTodos, error) {
 	total, err := tr.ec.Todo.Query().Count(tr.ctx)
 	if err != nil {

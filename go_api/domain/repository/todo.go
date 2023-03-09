@@ -6,6 +6,7 @@ import (
 
 // Todoのrepository
 type ITodoRepository interface {
+	TotalCount() (*int, error)
 	FindMany(offset *entities.GetTodosParams) (*entities.ResponseTodos, error)
 	FindById(id int) (*entities.ToDo, error)
 	Create(todo *entities.PostTodoJSONBody) (*entities.ToDo, error)
