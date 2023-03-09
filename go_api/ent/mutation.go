@@ -210,9 +210,22 @@ func (m *TodoMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error
 	return oldValue.CreatedAt, nil
 }
 
+// ClearCreatedAt clears the value of the "created_at" field.
+func (m *TodoMutation) ClearCreatedAt() {
+	m.created_at = nil
+	m.clearedFields[todo.FieldCreatedAt] = struct{}{}
+}
+
+// CreatedAtCleared returns if the "created_at" field was cleared in this mutation.
+func (m *TodoMutation) CreatedAtCleared() bool {
+	_, ok := m.clearedFields[todo.FieldCreatedAt]
+	return ok
+}
+
 // ResetCreatedAt resets all changes to the "created_at" field.
 func (m *TodoMutation) ResetCreatedAt() {
 	m.created_at = nil
+	delete(m.clearedFields, todo.FieldCreatedAt)
 }
 
 // SetDescription sets the "description" field.
@@ -232,7 +245,7 @@ func (m *TodoMutation) Description() (r string, exists bool) {
 // OldDescription returns the old "description" field's value of the Todo entity.
 // If the Todo object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *TodoMutation) OldDescription(ctx context.Context) (v *string, err error) {
+func (m *TodoMutation) OldDescription(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldDescription is only allowed on UpdateOne operations")
 	}
@@ -246,9 +259,22 @@ func (m *TodoMutation) OldDescription(ctx context.Context) (v *string, err error
 	return oldValue.Description, nil
 }
 
+// ClearDescription clears the value of the "description" field.
+func (m *TodoMutation) ClearDescription() {
+	m.description = nil
+	m.clearedFields[todo.FieldDescription] = struct{}{}
+}
+
+// DescriptionCleared returns if the "description" field was cleared in this mutation.
+func (m *TodoMutation) DescriptionCleared() bool {
+	_, ok := m.clearedFields[todo.FieldDescription]
+	return ok
+}
+
 // ResetDescription resets all changes to the "description" field.
 func (m *TodoMutation) ResetDescription() {
 	m.description = nil
+	delete(m.clearedFields, todo.FieldDescription)
 }
 
 // SetIsComplete sets the "is_complete" field.
@@ -354,9 +380,22 @@ func (m *TodoMutation) OldUpdatedAt(ctx context.Context) (v time.Time, err error
 	return oldValue.UpdatedAt, nil
 }
 
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (m *TodoMutation) ClearUpdatedAt() {
+	m.updated_at = nil
+	m.clearedFields[todo.FieldUpdatedAt] = struct{}{}
+}
+
+// UpdatedAtCleared returns if the "updated_at" field was cleared in this mutation.
+func (m *TodoMutation) UpdatedAtCleared() bool {
+	_, ok := m.clearedFields[todo.FieldUpdatedAt]
+	return ok
+}
+
 // ResetUpdatedAt resets all changes to the "updated_at" field.
 func (m *TodoMutation) ResetUpdatedAt() {
 	m.updated_at = nil
+	delete(m.clearedFields, todo.FieldUpdatedAt)
 }
 
 // Where appends a list predicates to the TodoMutation builder.
@@ -533,7 +572,17 @@ func (m *TodoMutation) AddField(name string, value ent.Value) error {
 // ClearedFields returns all nullable fields that were cleared during this
 // mutation.
 func (m *TodoMutation) ClearedFields() []string {
-	return nil
+	var fields []string
+	if m.FieldCleared(todo.FieldCreatedAt) {
+		fields = append(fields, todo.FieldCreatedAt)
+	}
+	if m.FieldCleared(todo.FieldDescription) {
+		fields = append(fields, todo.FieldDescription)
+	}
+	if m.FieldCleared(todo.FieldUpdatedAt) {
+		fields = append(fields, todo.FieldUpdatedAt)
+	}
+	return fields
 }
 
 // FieldCleared returns a boolean indicating if a field with the given name was
@@ -546,6 +595,17 @@ func (m *TodoMutation) FieldCleared(name string) bool {
 // ClearField clears the value of the field with the given name. It returns an
 // error if the field is not defined in the schema.
 func (m *TodoMutation) ClearField(name string) error {
+	switch name {
+	case todo.FieldCreatedAt:
+		m.ClearCreatedAt()
+		return nil
+	case todo.FieldDescription:
+		m.ClearDescription()
+		return nil
+	case todo.FieldUpdatedAt:
+		m.ClearUpdatedAt()
+		return nil
+	}
 	return fmt.Errorf("unknown Todo nullable field %s", name)
 }
 

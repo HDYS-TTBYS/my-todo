@@ -4,8 +4,8 @@ import (
 	"HDYS-TTBYS/my-todo/domain/entities"
 	"HDYS-TTBYS/my-todo/interfaces/models"
 	"HDYS-TTBYS/my-todo/usecase"
-	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo"
 )
@@ -32,14 +32,12 @@ func NewTodoHandler(uc usecase.ITodoUseCase) ITodoHandler {
 }
 
 func (h *todoHandler) FindMany(c echo.Context) error {
-	var offset models.GetTodosParams
-	if err := c.Bind(&offset); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Errorf("failed binding offset: %w", err))
+	stringOffset := c.QueryParam("offset")
+	intOffset, err := strconv.Atoi(stringOffset)
+	if err != nil {
+		intOffset = 0
 	}
-	if err := offset.Validate(); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Errorf("validate NG offset: %w", err))
-	}
-	todos, err := h.ITodoUseCase.FindMany(offset.Offset)
+	todos, err := h.ITodoUseCase.FindMany(intOffset)
 	if err != nil {
 		return err
 	}
@@ -47,14 +45,12 @@ func (h *todoHandler) FindMany(c echo.Context) error {
 }
 
 func (h *todoHandler) FindByID(c echo.Context) error {
-	var id models.GetTodoIdParam
-	if err := c.Bind(&id); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Errorf("failed binding id: %w", err))
+	stringId := c.Param("id")
+	intId, err := strconv.Atoi(stringId)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, "bad request")
 	}
-	if err := id.Validate(); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Errorf("validate NG offset: %w", err))
-	}
-	todo, err := h.ITodoUseCase.FindById(id.ID)
+	todo, err := h.ITodoUseCase.FindById(intId)
 	if err != nil {
 		return err
 	}
@@ -64,10 +60,10 @@ func (h *todoHandler) FindByID(c echo.Context) error {
 func (h *todoHandler) Create(c echo.Context) error {
 	var ptodo models.PostTodoJSONBody
 	if err := c.Bind(&ptodo); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Errorf("failed binding post todo: %w", err))
+		return echo.NewHTTPError(http.StatusBadRequest, "bad request")
 	}
 	if err := ptodo.Validate(); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Errorf("validate NG post todo: %w", err))
+		return echo.NewHTTPError(http.StatusBadRequest, "bad request")
 	}
 	ntodo, err := h.ITodoUseCase.Create((*entities.PostTodoJSONBody)(&ptodo))
 	if err != nil {
@@ -77,21 +73,19 @@ func (h *todoHandler) Create(c echo.Context) error {
 }
 
 func (h *todoHandler) Update(c echo.Context) error {
-	var id models.GetTodoIdParam
-	if err := c.Bind(&id); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Errorf("failed binding id: %w", err))
-	}
-	if err := id.Validate(); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Errorf("validate NG offset: %w", err))
+	stringId := c.Param("id")
+	intId, err := strconv.Atoi(stringId)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, "bad request")
 	}
 	var utodo models.UpdateTodoIdJSONBody
 	if err := c.Bind(&utodo); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Errorf("failed binding patch todo: %w", err))
+		return echo.NewHTTPError(http.StatusBadRequest, "bad request")
 	}
 	if err := utodo.Validate(); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Errorf("validate NG patch todo: %w", err))
+		return echo.NewHTTPError(http.StatusBadRequest, "bad request")
 	}
-	rtodo, err := h.ITodoUseCase.Update((*entities.UpdateTodoIdJSONBody)(&utodo), id.ID)
+	rtodo, err := h.ITodoUseCase.Update((*entities.UpdateTodoIdJSONBody)(&utodo), intId)
 	if err != nil {
 		return err
 	}
@@ -99,14 +93,12 @@ func (h *todoHandler) Update(c echo.Context) error {
 }
 
 func (h *todoHandler) Delete(c echo.Context) error {
-	var id models.GetTodoIdParam
-	if err := c.Bind(&id); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Errorf("failed binding id: %w", err))
+	stringId := c.Param("id")
+	intId, err := strconv.Atoi(stringId)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest, "bad request")
 	}
-	if err := id.Validate(); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, fmt.Errorf("validate NG offset: %w", err))
-	}
-	err := h.ITodoUseCase.Delete(id.ID)
+	err = h.ITodoUseCase.Delete(intId)
 	if err != nil {
 		return err
 	}

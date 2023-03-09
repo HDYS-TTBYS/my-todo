@@ -10,10 +10,6 @@ type GetTodosParams struct {
 	Offset int `query:"offset"`
 }
 
-type GetTodoIdParam struct {
-	ID int `param:"id"`
-}
-
 type Message entities.Error
 
 type PostTodoJSONBody entities.PostTodoJSONBody
@@ -27,18 +23,11 @@ func (g GetTodosParams) Validate() error {
 	)
 }
 
-func (g GetTodoIdParam) Validate() error {
-	return validation.Validate(&g.ID,
-		validation.NotNil,
-		validation.Min(0),
-	)
-}
-
 func (p PostTodoJSONBody) Validate() error {
 	return validation.ValidateStruct(&p,
-		validation.Field(&p.AssiginPerson, validation.Required, validation.Min(1), validation.Max(20)),
-		validation.Field(&p.Description, validation.Max(255)),
-		validation.Field(&p.Title, validation.Required, validation.Min(1), validation.Max(128)),
+		validation.Field(&p.AssiginPerson, validation.Required, validation.Length(1, 20)),
+		validation.Field(&p.Description, validation.Length(0, 255)),
+		validation.Field(&p.Title, validation.Required, validation.Length(1, 128)),
 	)
 }
 

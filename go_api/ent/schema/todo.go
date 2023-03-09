@@ -1,6 +1,8 @@
 package schema
 
 import (
+	"time"
+
 	"entgo.io/ent"
 	"entgo.io/ent/schema/field"
 )
@@ -14,13 +16,17 @@ type Todo struct {
 func (Todo) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("assagin_person"),
-		field.Time("created_at"),
+		field.Time("created_at").
+			Optional().
+			Default(time.Now()),
 		field.String("description").
-			Nillable(),
+			Optional(),
 		field.Bool("is_complete").
 			Default(false),
 		field.String("title"),
-		field.Time("updated_at"),
+		field.Time("updated_at").
+			Optional().
+			Default(time.Now()),
 	}
 }
 

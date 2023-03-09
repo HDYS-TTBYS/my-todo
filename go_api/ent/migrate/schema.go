@@ -12,11 +12,11 @@ var (
 	TodosColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "assagin_person", Type: field.TypeString},
-		{Name: "created_at", Type: field.TypeTime},
-		{Name: "description", Type: field.TypeString},
+		{Name: "created_at", Type: field.TypeTime, Nullable: true},
+		{Name: "description", Type: field.TypeString, Nullable: true},
 		{Name: "is_complete", Type: field.TypeBool, Default: false},
 		{Name: "title", Type: field.TypeString},
-		{Name: "updated_at", Type: field.TypeTime},
+		{Name: "updated_at", Type: field.TypeTime, Nullable: true},
 	}
 	// TodosTable holds the schema information for the "todos" table.
 	TodosTable = &schema.Table{

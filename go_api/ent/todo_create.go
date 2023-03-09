@@ -32,9 +32,25 @@ func (tc *TodoCreate) SetCreatedAt(t time.Time) *TodoCreate {
 	return tc
 }
 
+// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+func (tc *TodoCreate) SetNillableCreatedAt(t *time.Time) *TodoCreate {
+	if t != nil {
+		tc.SetCreatedAt(*t)
+	}
+	return tc
+}
+
 // SetDescription sets the "description" field.
 func (tc *TodoCreate) SetDescription(s string) *TodoCreate {
 	tc.mutation.SetDescription(s)
+	return tc
+}
+
+// SetNillableDescription sets the "description" field if the given value is not nil.
+func (tc *TodoCreate) SetNillableDescription(s *string) *TodoCreate {
+	if s != nil {
+		tc.SetDescription(*s)
+	}
 	return tc
 }
 
@@ -61,6 +77,14 @@ func (tc *TodoCreate) SetTitle(s string) *TodoCreate {
 // SetUpdatedAt sets the "updated_at" field.
 func (tc *TodoCreate) SetUpdatedAt(t time.Time) *TodoCreate {
 	tc.mutation.SetUpdatedAt(t)
+	return tc
+}
+
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (tc *TodoCreate) SetNillableUpdatedAt(t *time.Time) *TodoCreate {
+	if t != nil {
+		tc.SetUpdatedAt(*t)
+	}
 	return tc
 }
 
@@ -99,9 +123,17 @@ func (tc *TodoCreate) ExecX(ctx context.Context) {
 
 // defaults sets the default values of the builder before save.
 func (tc *TodoCreate) defaults() {
+	if _, ok := tc.mutation.CreatedAt(); !ok {
+		v := todo.DefaultCreatedAt
+		tc.mutation.SetCreatedAt(v)
+	}
 	if _, ok := tc.mutation.IsComplete(); !ok {
 		v := todo.DefaultIsComplete
 		tc.mutation.SetIsComplete(v)
+	}
+	if _, ok := tc.mutation.UpdatedAt(); !ok {
+		v := todo.DefaultUpdatedAt
+		tc.mutation.SetUpdatedAt(v)
 	}
 }
 
@@ -110,20 +142,11 @@ func (tc *TodoCreate) check() error {
 	if _, ok := tc.mutation.AssaginPerson(); !ok {
 		return &ValidationError{Name: "assagin_person", err: errors.New(`ent: missing required field "Todo.assagin_person"`)}
 	}
-	if _, ok := tc.mutation.CreatedAt(); !ok {
-		return &ValidationError{Name: "created_at", err: errors.New(`ent: missing required field "Todo.created_at"`)}
-	}
-	if _, ok := tc.mutation.Description(); !ok {
-		return &ValidationError{Name: "description", err: errors.New(`ent: missing required field "Todo.description"`)}
-	}
 	if _, ok := tc.mutation.IsComplete(); !ok {
 		return &ValidationError{Name: "is_complete", err: errors.New(`ent: missing required field "Todo.is_complete"`)}
 	}
 	if _, ok := tc.mutation.Title(); !ok {
 		return &ValidationError{Name: "title", err: errors.New(`ent: missing required field "Todo.title"`)}
-	}
-	if _, ok := tc.mutation.UpdatedAt(); !ok {
-		return &ValidationError{Name: "updated_at", err: errors.New(`ent: missing required field "Todo.updated_at"`)}
 	}
 	return nil
 }
@@ -161,7 +184,7 @@ func (tc *TodoCreate) createSpec() (*Todo, *sqlgraph.CreateSpec) {
 	}
 	if value, ok := tc.mutation.Description(); ok {
 		_spec.SetField(todo.FieldDescription, field.TypeString, value)
-		_node.Description = &value
+		_node.Description = value
 	}
 	if value, ok := tc.mutation.IsComplete(); ok {
 		_spec.SetField(todo.FieldIsComplete, field.TypeBool, value)

@@ -21,7 +21,7 @@ type Todo struct {
 	// CreatedAt holds the value of the "created_at" field.
 	CreatedAt time.Time `json:"created_at,omitempty"`
 	// Description holds the value of the "description" field.
-	Description *string `json:"description,omitempty"`
+	Description string `json:"description,omitempty"`
 	// IsComplete holds the value of the "is_complete" field.
 	IsComplete bool `json:"is_complete,omitempty"`
 	// Title holds the value of the "title" field.
@@ -80,8 +80,7 @@ func (t *Todo) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field description", values[i])
 			} else if value.Valid {
-				t.Description = new(string)
-				*t.Description = value.String
+				t.Description = value.String
 			}
 		case todo.FieldIsComplete:
 			if value, ok := values[i].(*sql.NullBool); !ok {
@@ -135,10 +134,8 @@ func (t *Todo) String() string {
 	builder.WriteString("created_at=")
 	builder.WriteString(t.CreatedAt.Format(time.ANSIC))
 	builder.WriteString(", ")
-	if v := t.Description; v != nil {
-		builder.WriteString("description=")
-		builder.WriteString(*v)
-	}
+	builder.WriteString("description=")
+	builder.WriteString(t.Description)
 	builder.WriteString(", ")
 	builder.WriteString("is_complete=")
 	builder.WriteString(fmt.Sprintf("%v", t.IsComplete))

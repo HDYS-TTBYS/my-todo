@@ -5,6 +5,7 @@ package ent
 import (
 	"HDYS-TTBYS/my-todo/ent/schema"
 	"HDYS-TTBYS/my-todo/ent/todo"
+	"time"
 )
 
 // The init function reads all schema descriptors with runtime code
@@ -13,8 +14,16 @@ import (
 func init() {
 	todoFields := schema.Todo{}.Fields()
 	_ = todoFields
+	// todoDescCreatedAt is the schema descriptor for created_at field.
+	todoDescCreatedAt := todoFields[1].Descriptor()
+	// todo.DefaultCreatedAt holds the default value on creation for the created_at field.
+	todo.DefaultCreatedAt = todoDescCreatedAt.Default.(time.Time)
 	// todoDescIsComplete is the schema descriptor for is_complete field.
 	todoDescIsComplete := todoFields[3].Descriptor()
 	// todo.DefaultIsComplete holds the default value on creation for the is_complete field.
 	todo.DefaultIsComplete = todoDescIsComplete.Default.(bool)
+	// todoDescUpdatedAt is the schema descriptor for updated_at field.
+	todoDescUpdatedAt := todoFields[5].Descriptor()
+	// todo.DefaultUpdatedAt holds the default value on creation for the updated_at field.
+	todo.DefaultUpdatedAt = todoDescUpdatedAt.Default.(time.Time)
 }

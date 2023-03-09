@@ -40,9 +40,37 @@ func (tu *TodoUpdate) SetCreatedAt(t time.Time) *TodoUpdate {
 	return tu
 }
 
+// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+func (tu *TodoUpdate) SetNillableCreatedAt(t *time.Time) *TodoUpdate {
+	if t != nil {
+		tu.SetCreatedAt(*t)
+	}
+	return tu
+}
+
+// ClearCreatedAt clears the value of the "created_at" field.
+func (tu *TodoUpdate) ClearCreatedAt() *TodoUpdate {
+	tu.mutation.ClearCreatedAt()
+	return tu
+}
+
 // SetDescription sets the "description" field.
 func (tu *TodoUpdate) SetDescription(s string) *TodoUpdate {
 	tu.mutation.SetDescription(s)
+	return tu
+}
+
+// SetNillableDescription sets the "description" field if the given value is not nil.
+func (tu *TodoUpdate) SetNillableDescription(s *string) *TodoUpdate {
+	if s != nil {
+		tu.SetDescription(*s)
+	}
+	return tu
+}
+
+// ClearDescription clears the value of the "description" field.
+func (tu *TodoUpdate) ClearDescription() *TodoUpdate {
+	tu.mutation.ClearDescription()
 	return tu
 }
 
@@ -69,6 +97,20 @@ func (tu *TodoUpdate) SetTitle(s string) *TodoUpdate {
 // SetUpdatedAt sets the "updated_at" field.
 func (tu *TodoUpdate) SetUpdatedAt(t time.Time) *TodoUpdate {
 	tu.mutation.SetUpdatedAt(t)
+	return tu
+}
+
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (tu *TodoUpdate) SetNillableUpdatedAt(t *time.Time) *TodoUpdate {
+	if t != nil {
+		tu.SetUpdatedAt(*t)
+	}
+	return tu
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (tu *TodoUpdate) ClearUpdatedAt() *TodoUpdate {
+	tu.mutation.ClearUpdatedAt()
 	return tu
 }
 
@@ -119,8 +161,14 @@ func (tu *TodoUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	if value, ok := tu.mutation.CreatedAt(); ok {
 		_spec.SetField(todo.FieldCreatedAt, field.TypeTime, value)
 	}
+	if tu.mutation.CreatedAtCleared() {
+		_spec.ClearField(todo.FieldCreatedAt, field.TypeTime)
+	}
 	if value, ok := tu.mutation.Description(); ok {
 		_spec.SetField(todo.FieldDescription, field.TypeString, value)
+	}
+	if tu.mutation.DescriptionCleared() {
+		_spec.ClearField(todo.FieldDescription, field.TypeString)
 	}
 	if value, ok := tu.mutation.IsComplete(); ok {
 		_spec.SetField(todo.FieldIsComplete, field.TypeBool, value)
@@ -130,6 +178,9 @@ func (tu *TodoUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := tu.mutation.UpdatedAt(); ok {
 		_spec.SetField(todo.FieldUpdatedAt, field.TypeTime, value)
+	}
+	if tu.mutation.UpdatedAtCleared() {
+		_spec.ClearField(todo.FieldUpdatedAt, field.TypeTime)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, tu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -163,9 +214,37 @@ func (tuo *TodoUpdateOne) SetCreatedAt(t time.Time) *TodoUpdateOne {
 	return tuo
 }
 
+// SetNillableCreatedAt sets the "created_at" field if the given value is not nil.
+func (tuo *TodoUpdateOne) SetNillableCreatedAt(t *time.Time) *TodoUpdateOne {
+	if t != nil {
+		tuo.SetCreatedAt(*t)
+	}
+	return tuo
+}
+
+// ClearCreatedAt clears the value of the "created_at" field.
+func (tuo *TodoUpdateOne) ClearCreatedAt() *TodoUpdateOne {
+	tuo.mutation.ClearCreatedAt()
+	return tuo
+}
+
 // SetDescription sets the "description" field.
 func (tuo *TodoUpdateOne) SetDescription(s string) *TodoUpdateOne {
 	tuo.mutation.SetDescription(s)
+	return tuo
+}
+
+// SetNillableDescription sets the "description" field if the given value is not nil.
+func (tuo *TodoUpdateOne) SetNillableDescription(s *string) *TodoUpdateOne {
+	if s != nil {
+		tuo.SetDescription(*s)
+	}
+	return tuo
+}
+
+// ClearDescription clears the value of the "description" field.
+func (tuo *TodoUpdateOne) ClearDescription() *TodoUpdateOne {
+	tuo.mutation.ClearDescription()
 	return tuo
 }
 
@@ -192,6 +271,20 @@ func (tuo *TodoUpdateOne) SetTitle(s string) *TodoUpdateOne {
 // SetUpdatedAt sets the "updated_at" field.
 func (tuo *TodoUpdateOne) SetUpdatedAt(t time.Time) *TodoUpdateOne {
 	tuo.mutation.SetUpdatedAt(t)
+	return tuo
+}
+
+// SetNillableUpdatedAt sets the "updated_at" field if the given value is not nil.
+func (tuo *TodoUpdateOne) SetNillableUpdatedAt(t *time.Time) *TodoUpdateOne {
+	if t != nil {
+		tuo.SetUpdatedAt(*t)
+	}
+	return tuo
+}
+
+// ClearUpdatedAt clears the value of the "updated_at" field.
+func (tuo *TodoUpdateOne) ClearUpdatedAt() *TodoUpdateOne {
+	tuo.mutation.ClearUpdatedAt()
 	return tuo
 }
 
@@ -272,8 +365,14 @@ func (tuo *TodoUpdateOne) sqlSave(ctx context.Context) (_node *Todo, err error) 
 	if value, ok := tuo.mutation.CreatedAt(); ok {
 		_spec.SetField(todo.FieldCreatedAt, field.TypeTime, value)
 	}
+	if tuo.mutation.CreatedAtCleared() {
+		_spec.ClearField(todo.FieldCreatedAt, field.TypeTime)
+	}
 	if value, ok := tuo.mutation.Description(); ok {
 		_spec.SetField(todo.FieldDescription, field.TypeString, value)
+	}
+	if tuo.mutation.DescriptionCleared() {
+		_spec.ClearField(todo.FieldDescription, field.TypeString)
 	}
 	if value, ok := tuo.mutation.IsComplete(); ok {
 		_spec.SetField(todo.FieldIsComplete, field.TypeBool, value)
@@ -283,6 +382,9 @@ func (tuo *TodoUpdateOne) sqlSave(ctx context.Context) (_node *Todo, err error) 
 	}
 	if value, ok := tuo.mutation.UpdatedAt(); ok {
 		_spec.SetField(todo.FieldUpdatedAt, field.TypeTime, value)
+	}
+	if tuo.mutation.UpdatedAtCleared() {
+		_spec.ClearField(todo.FieldUpdatedAt, field.TypeTime)
 	}
 	_node = &Todo{config: tuo.config}
 	_spec.Assign = _node.assignValues

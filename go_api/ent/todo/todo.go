@@ -2,6 +2,10 @@
 
 package todo
 
+import (
+	"time"
+)
+
 const (
 	// Label holds the string label denoting the todo type in the database.
 	Label = "todo"
@@ -45,6 +49,10 @@ func ValidColumn(column string) bool {
 }
 
 var (
+	// DefaultCreatedAt holds the default value on creation for the "created_at" field.
+	DefaultCreatedAt time.Time
 	// DefaultIsComplete holds the default value on creation for the "is_complete" field.
 	DefaultIsComplete bool
+	// DefaultUpdatedAt holds the default value on creation for the "updated_at" field.
+	DefaultUpdatedAt time.Time
 )
