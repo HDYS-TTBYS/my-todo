@@ -30,7 +30,7 @@ func (tu todoUseCase) FindMany(offset int) (todo *entities.ResponseTodos, err er
 	if *count == 0 {
 		return &entities.ResponseTodos{Total: *count, ToDos: []*entities.ToDo{}}, nil
 	}
-	todos, err := tu.todoRepository.FindMany(&entities.GetTodosParams{Offset: offset})
+	todos, err := tu.todoRepository.FindMany(offset)
 	if err != nil {
 		return nil, err
 	}

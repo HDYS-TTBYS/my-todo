@@ -42,10 +42,10 @@ func (tr *todoRepository) TotalCount() (*int, error) {
 	return &total, nil
 }
 
-func (tr *todoRepository) FindMany(offset *entities.GetTodosParams) ([]*entities.ToDo, error) {
+func (tr *todoRepository) FindMany(offset int) ([]*entities.ToDo, error) {
 	t, err := tr.ec.Todo.Query().
 		Limit(20).
-		Offset(offset.Offset).
+		Offset(offset).
 		Order(ent.Desc("created_at")).
 		All(tr.ctx)
 	if err != nil {
