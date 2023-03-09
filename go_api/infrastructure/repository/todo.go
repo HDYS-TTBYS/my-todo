@@ -49,7 +49,7 @@ func (tr *todoRepository) FindMany(offset *entities.GetTodosParams) ([]*entities
 		Order(ent.Desc("created_at")).
 		All(tr.ctx)
 	if err != nil {
-		return nil, echo.NewHTTPError(http.StatusInternalServerError, "failed querying todos:")
+		return nil, echo.NewHTTPError(http.StatusInternalServerError, "failed querying todos")
 	}
 	var todos []*entities.ToDo
 	for _, v := range t {

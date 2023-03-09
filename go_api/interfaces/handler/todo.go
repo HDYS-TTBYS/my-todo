@@ -48,7 +48,7 @@ func (h *todoHandler) FindByID(c echo.Context) error {
 	stringId := c.Param("id")
 	intId, err := strconv.Atoi(stringId)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, "bad request")
+		return echo.NewHTTPError(http.StatusBadRequest, "bad request id")
 	}
 	todo, err := h.ITodoUseCase.FindById(intId)
 	if err != nil {
@@ -60,10 +60,10 @@ func (h *todoHandler) FindByID(c echo.Context) error {
 func (h *todoHandler) Create(c echo.Context) error {
 	var ptodo models.PostTodoJSONBody
 	if err := c.Bind(&ptodo); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, "bad request")
+		return echo.NewHTTPError(http.StatusBadRequest, "bad request body")
 	}
 	if err := ptodo.Validate(); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, "bad request")
+		return echo.NewHTTPError(http.StatusBadRequest, "bad request validate NG")
 	}
 	ntodo, err := h.ITodoUseCase.Create((*entities.PostTodoJSONBody)(&ptodo))
 	if err != nil {
@@ -76,14 +76,14 @@ func (h *todoHandler) Update(c echo.Context) error {
 	stringId := c.Param("id")
 	intId, err := strconv.Atoi(stringId)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, "bad request")
+		return echo.NewHTTPError(http.StatusBadRequest, "bad request id")
 	}
 	var utodo models.UpdateTodoIdJSONBody
 	if err := c.Bind(&utodo); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, "bad request")
+		return echo.NewHTTPError(http.StatusBadRequest, "bad request body")
 	}
 	if err := utodo.Validate(); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, "bad request")
+		return echo.NewHTTPError(http.StatusBadRequest, "bad request validate NG")
 	}
 	rtodo, err := h.ITodoUseCase.Update((*entities.UpdateTodoIdJSONBody)(&utodo), intId)
 	if err != nil {
@@ -96,7 +96,7 @@ func (h *todoHandler) Delete(c echo.Context) error {
 	stringId := c.Param("id")
 	intId, err := strconv.Atoi(stringId)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, "bad request")
+		return echo.NewHTTPError(http.StatusBadRequest, "bad request id")
 	}
 	err = h.ITodoUseCase.Delete(intId)
 	if err != nil {

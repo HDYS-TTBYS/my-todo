@@ -33,9 +33,9 @@ func (p PostTodoJSONBody) Validate() error {
 
 func (u UpdateTodoIdJSONBody) Validate() error {
 	return validation.ValidateStruct(&u,
-		validation.Field(&u.AssiginPerson, validation.Required, validation.Min(1), validation.Max(20)),
-		validation.Field(&u.Description, validation.Max(255)),
-		validation.Field(&u.Title, validation.Required, validation.Min(1), validation.Max(128)),
+		validation.Field(&u.AssiginPerson, validation.Required, validation.Length(1, 20)),
+		validation.Field(&u.Description, validation.Length(0, 255)),
+		validation.Field(&u.Title, validation.Required, validation.Length(1, 128)),
 		validation.Field(&u.IsComplete, validation.NotNil),
 	)
 }
