@@ -36,6 +36,15 @@ func postTodoJsonBody() *entities.PostTodoJSONBody {
 	}
 }
 
+func updateTodoJsonBody() *entities.UpdateTodoIdJSONBody {
+	return &entities.UpdateTodoIdJSONBody{
+		AssiginPerson: "hdys",
+		Description:   toPtr[string]("description"),
+		IsComplete:    false,
+		Title:         "title",
+	}
+}
+
 func TestTodoUseCase_FindMany(t *testing.T) {
 	t.Run(
 		"データなし",
@@ -126,6 +135,37 @@ func TestTodoUseCase_Create(t *testing.T) {
 			mockRepo.EXPECT().Create(postTodoJsonBody()).Return(nil, errors.New("error"))
 			u := usecase.NewTodoUseCase(mockRepo)
 			todo, err := u.Create(postTodoJsonBody())
+			if assert.Error(tt, err) {
+				assert.Nil(tt, todo)
+			}
+		},
+	)
+}
+
+func TestTodoUseCase_Update(t *testing.T) {
+	t.Run(
+		"成功",
+		func(tt *testing.T) {
+			mockCtrl := gomock.NewController(t)
+			defer mockCtrl.Finish()
+			mockRepo := mock_repository.NewMockITodoRepository(mockCtrl)
+			mockRepo.EXPECT().Update(updateTodoJsonBody(), 1).Return(returnTodo(), nil)
+			u := usecase.NewTodoUseCase(mockRepo)
+			todo, err := u.Update(updateTodoJsonBody(), 1)
+			if assert.NoError(tt, err) {
+				assert.Equal(tt, returnTodo(), todo)
+			}
+		},
+	)
+	t.Run(
+		"失敗",
+		func(tt *testing.T) {
+			mockCtrl := gomock.NewController(t)
+			defer mockCtrl.Finish()
+			mockRepo := mock_repository.NewMockITodoRepository(mockCtrl)
+			mockRepo.EXPECT().Update(updateTodoJsonBody(), 1).Return(nil, errors.New("error"))
+			u := usecase.NewTodoUseCase(mockRepo)
+			todo, err := u.Update(updateTodoJsonBody(), 1)
 			if assert.Error(tt, err) {
 				assert.Nil(tt, todo)
 			}
