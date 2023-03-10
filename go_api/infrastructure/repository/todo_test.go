@@ -130,3 +130,22 @@ func TestTodoRepository_FindById(t *testing.T) {
 		},
 	)
 }
+
+func TestTodoRepository_Create(t *testing.T) {
+	t.Run(
+		"成功",
+		func(tt *testing.T) {
+			client := enttest.Open(t, "sqlite3", "file:ent?mode=memory&_fk=1")
+			defer client.Close()
+			c := context.Background()
+			r := NewTodoRepository(client, c)
+			desc := "test description"
+			postTodoJsonBody := &entities.PostTodoJSONBody{
+				AssiginPerson: "hdys",
+				Description:   &desc,
+				Title:         "test title"}
+			_, err := r.Create(postTodoJsonBody)
+			assert.NoError(tt, err)
+		},
+	)
+}
