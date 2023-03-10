@@ -1,8 +1,9 @@
-package repository
+package repository_test
 
 import (
 	"HDYS-TTBYS/my-todo/domain/entities"
 	"HDYS-TTBYS/my-todo/ent/enttest"
+	"HDYS-TTBYS/my-todo/infrastructure/repository"
 	"context"
 	"testing"
 
@@ -17,7 +18,7 @@ func TestTodoRepository_TotalCount(t *testing.T) {
 			client := enttest.Open(t, "sqlite3", "file:ent?mode=memory&_fk=1")
 			defer client.Close()
 			c := context.Background()
-			r := NewTodoRepository(client, c)
+			r := repository.NewTodoRepository(client, c)
 			count, err := r.TotalCount()
 			if assert.NoError(tt, err) {
 				assert.Equal(tt, 0, *count)
@@ -30,7 +31,7 @@ func TestTodoRepository_TotalCount(t *testing.T) {
 			client := enttest.Open(t, "sqlite3", "file:ent?mode=memory&_fk=1")
 			defer client.Close()
 			c := context.Background()
-			r := NewTodoRepository(client, c)
+			r := repository.NewTodoRepository(client, c)
 			_, err := client.Todo.Create().
 				SetAssaginPerson("hdys").
 				SetDescription("test description").
@@ -53,7 +54,7 @@ func TestTodoRepository_FindMany(t *testing.T) {
 			client := enttest.Open(t, "sqlite3", "file:ent?mode=memory&_fk=1")
 			defer client.Close()
 			c := context.Background()
-			r := NewTodoRepository(client, c)
+			r := repository.NewTodoRepository(client, c)
 			todos, err := r.FindMany(0)
 			if assert.NoError(tt, err) {
 				var expected []*entities.ToDo
@@ -67,7 +68,7 @@ func TestTodoRepository_FindMany(t *testing.T) {
 			client := enttest.Open(t, "sqlite3", "file:ent?mode=memory&_fk=1")
 			defer client.Close()
 			c := context.Background()
-			r := NewTodoRepository(client, c)
+			r := repository.NewTodoRepository(client, c)
 			_, err := client.Todo.Create().
 				SetAssaginPerson("hdys").
 				SetDescription("test description").
@@ -92,7 +93,7 @@ func TestTodoRepository_FindById(t *testing.T) {
 			client := enttest.Open(t, "sqlite3", "file:ent?mode=memory&_fk=1")
 			defer client.Close()
 			c := context.Background()
-			r := NewTodoRepository(client, c)
+			r := repository.NewTodoRepository(client, c)
 			todo, err := r.FindById(1)
 			if assert.Error(tt, err) {
 				assert.Nil(tt, todo)
@@ -105,7 +106,7 @@ func TestTodoRepository_FindById(t *testing.T) {
 			client := enttest.Open(t, "sqlite3", "file:ent?mode=memory&_fk=1")
 			defer client.Close()
 			c := context.Background()
-			r := NewTodoRepository(client, c)
+			r := repository.NewTodoRepository(client, c)
 			_, err := client.Todo.Create().
 				SetAssaginPerson("hdys").
 				SetDescription("test description").
@@ -130,7 +131,7 @@ func TestTodoRepository_Create(t *testing.T) {
 			client := enttest.Open(t, "sqlite3", "file:ent?mode=memory&_fk=1")
 			defer client.Close()
 			c := context.Background()
-			r := NewTodoRepository(client, c)
+			r := repository.NewTodoRepository(client, c)
 			desc := "test description"
 			postTodoJsonBody := &entities.PostTodoJSONBody{
 				AssiginPerson: "hdys",
@@ -153,7 +154,7 @@ func TestTodoRepository_Update(t *testing.T) {
 			client := enttest.Open(t, "sqlite3", "file:ent?mode=memory&_fk=1")
 			defer client.Close()
 			c := context.Background()
-			r := NewTodoRepository(client, c)
+			r := repository.NewTodoRepository(client, c)
 			desc := "test description update"
 			updataTodoJsonBody := &entities.UpdateTodoIdJSONBody{
 				AssiginPerson: "hdys",
@@ -171,7 +172,7 @@ func TestTodoRepository_Update(t *testing.T) {
 			client := enttest.Open(t, "sqlite3", "file:ent?mode=memory&_fk=1")
 			defer client.Close()
 			c := context.Background()
-			r := NewTodoRepository(client, c)
+			r := repository.NewTodoRepository(client, c)
 			_, err := client.Todo.Create().
 				SetAssaginPerson("hdys").
 				SetDescription("test description").
@@ -204,7 +205,7 @@ func TestTodoRepository_Delete(t *testing.T) {
 			client := enttest.Open(t, "sqlite3", "file:ent?mode=memory&_fk=1")
 			defer client.Close()
 			c := context.Background()
-			r := NewTodoRepository(client, c)
+			r := repository.NewTodoRepository(client, c)
 			err := r.Delete(1)
 			assert.Error(tt, err)
 		},
@@ -215,7 +216,7 @@ func TestTodoRepository_Delete(t *testing.T) {
 			client := enttest.Open(t, "sqlite3", "file:ent?mode=memory&_fk=1")
 			defer client.Close()
 			c := context.Background()
-			r := NewTodoRepository(client, c)
+			r := repository.NewTodoRepository(client, c)
 			_, err := client.Todo.Create().
 				SetAssaginPerson("hdys").
 				SetDescription("test description").
