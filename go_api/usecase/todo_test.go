@@ -172,3 +172,30 @@ func TestTodoUseCase_Update(t *testing.T) {
 		},
 	)
 }
+
+func TestTodoUseCase_Delete(t *testing.T) {
+	t.Run(
+		"成功",
+		func(tt *testing.T) {
+			mockCtrl := gomock.NewController(t)
+			defer mockCtrl.Finish()
+			mockRepo := mock_repository.NewMockITodoRepository(mockCtrl)
+			mockRepo.EXPECT().Delete(1).Return(nil)
+			u := usecase.NewTodoUseCase(mockRepo)
+			err := u.Delete(1)
+			assert.NoError(tt, err)
+		},
+	)
+	t.Run(
+		"失敗",
+		func(tt *testing.T) {
+			mockCtrl := gomock.NewController(t)
+			defer mockCtrl.Finish()
+			mockRepo := mock_repository.NewMockITodoRepository(mockCtrl)
+			mockRepo.EXPECT().Delete(1).Return(errors.New("error"))
+			u := usecase.NewTodoUseCase(mockRepo)
+			err := u.Delete(1)
+			assert.Error(tt, err)
+		},
+	)
+}
