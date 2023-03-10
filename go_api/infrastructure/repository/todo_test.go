@@ -196,3 +196,40 @@ func TestTodoRepository_Update(t *testing.T) {
 		},
 	)
 }
+
+func TestTodoRepository_Delete(t *testing.T) {
+	t.Run(
+		"データなし失敗",
+		func(tt *testing.T) {
+			client := enttest.Open(t, "sqlite3", "file:ent?mode=memory&_fk=1")
+			defer client.Close()
+			c := context.Background()
+			r := NewTodoRepository(client, c)
+			err := r.Delete(1)
+			assert.Error(tt, err)
+		},
+	)
+	t.Run(
+		"成功",
+		func(ttt *testing.T) {
+			client := enttest.Open(t, "sqlite3", "file:ent?mode=memory&_fk=1")
+			defer client.Close()
+			c := context.Background()
+			r := NewTodoRepository(client, c)
+			_, err := client.Todo.Create().
+				SetAssaginPerson("hdys").
+				SetDescription("test description").
+				SetTitle("test title").
+				Save(c)
+			if assert.NoError(ttt, err) {
+				err := r.Delete(1)
+				if assert.NoError(ttt, err) {
+					count, err := client.Todo.Query().Count(c)
+					if assert.NoError(ttt, err) {
+						assert.Equal(ttt, 0, count)
+					}
+				}
+			}
+		},
+	)
+}
