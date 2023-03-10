@@ -21,9 +21,7 @@ func TestTodoRepository_TotalCount(t *testing.T) {
 			r := NewTodoRepository(client, c)
 			count, err := r.TotalCount()
 			if assert.NoError(tt, err) {
-				zero := 0
-				p := &zero
-				assert.Equal(tt, count, p)
+				assert.Equal(tt, *count, 0)
 			}
 		},
 	)
@@ -45,9 +43,7 @@ func TestTodoRepository_TotalCount(t *testing.T) {
 			if assert.NoError(ttt, err) {
 				count, err := r.TotalCount()
 				if assert.NoError(ttt, err) {
-					one := 1
-					p := &one
-					assert.Equal(ttt, count, p)
+					assert.Equal(ttt, *count, 1)
 				}
 			}
 		},
@@ -90,6 +86,45 @@ func TestTodoRepository_FindMany(t *testing.T) {
 					var ttodo []*entities.ToDo
 					ttodo = append(ttodo, dataTransform(createdTodo))
 					assert.Equal(ttt, todos, ttodo)
+				}
+			}
+		},
+	)
+}
+
+func TestTodoRepository_FindById(t *testing.T) {
+	t.Run(
+		"データなし",
+		func(tt *testing.T) {
+			client := enttest.Open(t, "sqlite3", "file:ent?mode=memory&_fk=1")
+			defer client.Close()
+			c := context.Background()
+			r := NewTodoRepository(client, c)
+			todo, err := r.FindById(1)
+			if assert.Error(tt, err) {
+				assert.Nil(tt, todo)
+			}
+		},
+	)
+	t.Run(
+		"データ1個",
+		func(ttt *testing.T) {
+			client := enttest.Open(t, "sqlite3", "file:ent?mode=memory&_fk=1")
+			defer client.Close()
+			c := context.Background()
+			r := NewTodoRepository(client, c)
+			now := time.Now()
+			createdTodo, err := client.Todo.Create().
+				SetAssaginPerson("hdys").
+				SetCreatedAt(now).
+				SetDescription("test description").
+				SetTitle("test title").
+				SetUpdatedAt(now).
+				Save(c)
+			if assert.NoError(ttt, err) {
+				todo, err := r.FindById(1)
+				if assert.NoError(ttt, err) {
+					assert.Equal(ttt, todo, dataTransform(createdTodo))
 				}
 			}
 		},
