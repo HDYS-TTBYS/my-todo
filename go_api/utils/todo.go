@@ -42,3 +42,12 @@ func UpdateTodoJsonBody() *entities.UpdateTodoIdJSONBody {
 		Title:         "title",
 	}
 }
+
+func UpdateTodoJsonBodyBad() *entities.UpdateTodoIdJSONBody {
+	return &entities.UpdateTodoIdJSONBody{
+		AssiginPerson: "",
+		Description:   ToPtr[string](""),
+		IsComplete:    false,
+		Title:         "",
+	}
+}
