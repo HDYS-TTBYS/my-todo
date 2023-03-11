@@ -86,9 +86,9 @@ func TestTodoUseCase_Create(t *testing.T) {
 			mockCtrl := gomock.NewController(t)
 			defer mockCtrl.Finish()
 			mockRepo := mock_repository.NewMockITodoRepository(mockCtrl)
-			mockRepo.EXPECT().Create(utils.RostTodoJsonBody()).Return(utils.ReturnTodo(), nil)
+			mockRepo.EXPECT().Create(utils.PostTodoJsonBody()).Return(utils.ReturnTodo(), nil)
 			u := usecase.NewTodoUseCase(mockRepo)
-			todo, err := u.Create(utils.RostTodoJsonBody())
+			todo, err := u.Create(utils.PostTodoJsonBody())
 			if assert.NoError(tt, err) {
 				assert.Equal(tt, utils.ReturnTodo(), todo)
 			}
@@ -100,9 +100,9 @@ func TestTodoUseCase_Create(t *testing.T) {
 			mockCtrl := gomock.NewController(t)
 			defer mockCtrl.Finish()
 			mockRepo := mock_repository.NewMockITodoRepository(mockCtrl)
-			mockRepo.EXPECT().Create(utils.RostTodoJsonBody()).Return(nil, errors.New("error"))
+			mockRepo.EXPECT().Create(utils.PostTodoJsonBody()).Return(nil, errors.New("error"))
 			u := usecase.NewTodoUseCase(mockRepo)
-			todo, err := u.Create(utils.RostTodoJsonBody())
+			todo, err := u.Create(utils.PostTodoJsonBody())
 			if assert.Error(tt, err) {
 				assert.Nil(tt, todo)
 			}

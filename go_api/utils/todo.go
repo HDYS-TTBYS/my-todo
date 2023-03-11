@@ -18,11 +18,19 @@ func ReturnTodo() *entities.ToDo {
 	}
 }
 
-func RostTodoJsonBody() *entities.PostTodoJSONBody {
+func PostTodoJsonBody() *entities.PostTodoJSONBody {
 	return &entities.PostTodoJSONBody{
 		AssiginPerson: "hdys",
 		Description:   ToPtr[string]("description"),
 		Title:         "title",
+	}
+}
+
+func PostTodoJsonBodyBad() *entities.PostTodoJSONBody {
+	return &entities.PostTodoJSONBody{
+		AssiginPerson: "",
+		Description:   ToPtr[string](""),
+		Title:         "",
 	}
 }
 
