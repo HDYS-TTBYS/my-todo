@@ -4,7 +4,6 @@ services:
     build:
       context: .
       dockerfile: ./dockerfiles/dev/go_api/Dockerfile
-    image: golang:1.20
     volumes:
       - ./go_api:/go/src/app
     tty: true

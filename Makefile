@@ -1,3 +1,12 @@
+up: #dev server立ち上げ
+	docker-compose up -d
+
+down: #dev server停止
+	docker-compose down
+
+test: #test
+	docker exec  -i my-todo-api-1 /bin/bash -c "cd /go/src/app && go test ./..."
+
 go-gen: #oapi-codegenでgoのコードを生成する
 	oapi-codegen -package entities -generate types openapi.yaml > go_api/domain/entities/todo_gen.go
 
