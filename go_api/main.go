@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
@@ -17,7 +18,6 @@ import (
 )
 
 func main() {
-	// client, err := ent.Open("postgres", "host=postgres port=5432 user=api_user dbname=api_db password=password sslmode=disable")
 	url := fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=disable",
 		os.Getenv("POSTGRES_HOST"),
 		os.Getenv("POSTGRES_PORT"),
@@ -43,7 +43,7 @@ func main() {
 	e := echo.New()
 
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
-		AllowOrigins:     []string{"https://tthd-app.link", "http://localhost:3000"},
+		AllowOrigins:     strings.Split(os.Getenv("ALLOWORIGINS"), " "),
 		AllowHeaders:     []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
 		AllowCredentials: true,
 		AllowMethods:     []string{"GET", "PUT", "POST", "DELETE", "UPDATE", "OPTIONS"},
