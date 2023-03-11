@@ -3,7 +3,7 @@ services:
   api:
     build:
       context: .
-      dockerfile: .//go_api/Dockerfile.dev
+      dockerfile: ./go_api/Dockerfile.dev
     volumes:
       - ./go_api:/go/src/app
     tty: true
