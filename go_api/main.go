@@ -7,7 +7,9 @@ import (
 	"HDYS-TTBYS/my-todo/interfaces/handler"
 	"HDYS-TTBYS/my-todo/usecase"
 	"context"
+	"fmt"
 	"log"
+	"os"
 
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
@@ -15,7 +17,15 @@ import (
 )
 
 func main() {
-	client, err := ent.Open("postgres", "host=postgres port=5432 user=api_user dbname=api_db password=password sslmode=disable")
+	// client, err := ent.Open("postgres", "host=postgres port=5432 user=api_user dbname=api_db password=password sslmode=disable")
+	url := fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=disable",
+		os.Getenv("POSTGRES_HOST"),
+		os.Getenv("POSTGRES_PORT"),
+		os.Getenv("POSTGRES_USER"),
+		os.Getenv("POSTGRES_DB"),
+		os.Getenv("POSTGRES_PASSWORD"),
+	)
+	client, err := ent.Open("postgres", url)
 	if err != nil {
 		log.Fatalf("failed opening connection to postgres: %v", err)
 	}
