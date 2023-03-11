@@ -2,7 +2,7 @@ FROM golang:1.20
 
 WORKDIR /go/src/app
 
-ADD ./go_api .
+ADD ./ .
 
 RUN apt update
 RUN apt install -y sqlite3
