@@ -294,3 +294,60 @@ func TestTodoHandler_Update(t *testing.T) {
 		},
 	)
 }
+
+func TestTodoHandler_Delete(t *testing.T) {
+	t.Run(
+		"no id",
+		func(tt *testing.T) {
+			mockCtrl := gomock.NewController(t)
+			defer mockCtrl.Finish()
+			mockUsecase := mock_usecase.NewMockITodoUseCase(mockCtrl)
+			e := echo.New()
+			req := httptest.NewRequest(http.MethodDelete, "/api/todo/:id", nil)
+			req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+			rec := httptest.NewRecorder()
+			c := e.NewContext(req, rec)
+			h := handler.NewTodoHandler(mockUsecase)
+			assert.Error(tt, h.Delete(c))
+		},
+	)
+	t.Run(
+		"失敗",
+		func(tt *testing.T) {
+			mockCtrl := gomock.NewController(t)
+			defer mockCtrl.Finish()
+			mockUsecase := mock_usecase.NewMockITodoUseCase(mockCtrl)
+			mockUsecase.EXPECT().Delete(1).Return(errors.New("error"))
+			e := echo.New()
+			req := httptest.NewRequest(http.MethodDelete, "/api/todo/:id", nil)
+			req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+			rec := httptest.NewRecorder()
+			c := e.NewContext(req, rec)
+			c.SetParamNames("id")
+			c.SetParamValues("1")
+			h := handler.NewTodoHandler(mockUsecase)
+			assert.Error(tt, h.Delete(c))
+		},
+	)
+	t.Run(
+		"成功",
+		func(tt *testing.T) {
+			mockCtrl := gomock.NewController(t)
+			defer mockCtrl.Finish()
+			mockUsecase := mock_usecase.NewMockITodoUseCase(mockCtrl)
+			mockUsecase.EXPECT().Delete(1).Return(nil)
+			e := echo.New()
+			req := httptest.NewRequest(http.MethodDelete, "/api/todo/:id", nil)
+			req.Header.Set(echo.HeaderContentType, echo.MIMEApplicationJSON)
+			rec := httptest.NewRecorder()
+			c := e.NewContext(req, rec)
+			c.SetParamNames("id")
+			c.SetParamValues("1")
+			h := handler.NewTodoHandler(mockUsecase)
+			if assert.NoError(tt, h.Delete(c)) {
+				assert.Equal(tt, http.StatusOK, rec.Code)
+				assert.Equal(tt, fmt.Sprintln(`{"message":"contant deleted"}`), rec.Body.String())
+			}
+		},
+	)
+}
