@@ -9,5 +9,6 @@ RUN apt install -y sqlite3
 
 RUN go get -d entgo.io/ent/cmd/ent
 RUN go install ariga.io/atlas/cmd/atlas@master
+RUN go install github.com/golang/mock/mockgen@v1.6.0
 
 EXPOSE 8080
