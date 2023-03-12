@@ -10,6 +10,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strconv"
 	"strings"
 
 	"github.com/labstack/echo"
@@ -18,7 +19,17 @@ import (
 )
 
 func main() {
-	url := fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s sslmode=disable",
+	toBool, err := strconv.ParseBool(os.Getenv("DEV"))
+	var sslmode string
+	if err != nil {
+		sslmode = ""
+	}
+	if toBool {
+		sslmode = " sslmode=disable"
+	} else {
+		sslmode = ""
+	}
+	url := fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s"+sslmode,
 		os.Getenv("POSTGRES_HOST"),
 		os.Getenv("POSTGRES_PORT"),
 		os.Getenv("POSTGRES_USER"),
