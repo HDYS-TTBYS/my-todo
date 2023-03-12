@@ -21,7 +21,7 @@ sql-gen: ## atlasでmigrationのコードを生成する
 	atlas migrate diff migration_name \
 	--dir "file://ent/migrate/migrations" \
 	--to "ent://ent/schema" \
-	--dev-url "docker://postgres/15/test?search_path=public"
+	--dev-url "docker://postgres/14/test?search_path=public"
 
 install-pgo: ## pgoをインストール
 	git clone https://github.com/CrunchyData/postgres-operator-examples || /bin/true

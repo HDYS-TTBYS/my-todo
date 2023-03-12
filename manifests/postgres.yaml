@@ -1,7 +1,8 @@
 apiVersion: postgres-operator.crunchydata.com/v1beta1
 kind: PostgresCluster
 metadata:
-  name: hippo
+  name: todo
+  namespace: default
 spec:
   image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres:ubi8-14.7-0
   postgresVersion: 14
@@ -9,7 +10,7 @@ spec:
     - name: instance1
       dataVolumeClaimSpec:
         accessModes:
-        - "ReadWriteOnce"
+          - "ReadWriteOnce"
         resources:
           requests:
             storage: 1Gi
@@ -17,11 +18,11 @@ spec:
     pgbackrest:
       image: registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:ubi8-2.41-4
       repos:
-      - name: repo1
-        volume:
-          volumeClaimSpec:
-            accessModes:
-            - "ReadWriteOnce"
-            resources:
-              requests:
-                storage: 1Gi
+        - name: repo1
+          volume:
+            volumeClaimSpec:
+              accessModes:
+                - "ReadWriteOnce"
+              resources:
+                requests:
+                  storage: 1Gi
