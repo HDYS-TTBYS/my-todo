@@ -30,7 +30,10 @@ install-pgo: ## pgoをインストール
 	kubectl apply --server-side -k kustomize/install/default
 
 docker-build-and-push: ## docker-build-and-push
-	docker build -t hdys/my-todo-go-api:latest ./go_api
-	docker push hdys/my-todo-go-api
-	docker build -t hdys/my-todo-web:latest ./web
-	docker push hdys/my-todo-web
+	docker build -t ${DOCKERHUB_USERNAME}/my-todo-go-api:${GITHUB_SHA} ./go_api
+	docker push ${DOCKERHUB_USERNAME}/my-todo-go-api:${GITHUB_SHA}
+	docker build -t ${DOCKERHUB_USERNAME}/my-todo-web:${GITHUB_SHA} ./web
+	docker push ${DOCKERHUB_USERNAME}/my-todo-web:${GITHUB_SHA}
+
+aaa:
+	@echo ${TEST}

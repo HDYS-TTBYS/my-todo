@@ -32,3 +32,10 @@ helm repo add nginx-stable https://helm.nginx.com/stable
 helm repo update
 helm install nginx-ingress nginx-stable/nginx-ingress
 ```
+
+4. 環境変数を設定
+
+```
+export DOCKERHUB_USERNAME="your_dockerhub_username"
+export GITHUB_SHA="latest"
+```
