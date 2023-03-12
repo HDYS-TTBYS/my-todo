@@ -35,5 +35,5 @@ docker-build-and-push: ## docker-build-and-push
 	docker build -t ${DOCKERHUB_USERNAME}/my-todo-web:${GITHUB_SHA} ./web
 	docker push ${DOCKERHUB_USERNAME}/my-todo-web:${GITHUB_SHA}
 
-aaa:
-	@echo ${TEST}
+deploy: ## kubernetes clusterにデプロイする
+	cat manifests/web.yaml | envsubst '${DOCKERHUB_USERNAME} ${GITHUB_SHA}' | kubectl apply -f -
