@@ -13,7 +13,7 @@ make up
 - go_api
   - vscode remote container で編集
 - web
-  - local で編集
+  - vscode remote container で編集
 
 ## staging
 
