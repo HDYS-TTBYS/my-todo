@@ -39,3 +39,4 @@ docker-build-and-push: ## docker-build-and-push
 deploy: ## kubernetes clusterにデプロイする
 	@cat manifests/web.yaml | envsubst '$${DOCKERHUB_USERNAME} $${GITHUB_SHA}' | kubectl apply -f -
 	@cat manifests/api.yaml | envsubst '$${DOCKERHUB_USERNAME} $${GITHUB_SHA}' | kubectl apply -f -
+	kubectl apply -f manifests/ingress.yaml 

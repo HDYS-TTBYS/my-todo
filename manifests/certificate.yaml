@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: tthd-app
+spec:
+  secretName: tthd-app-tls
+  commonName: "*.tthd-app.link" # ワイルドカード証明書
+  dnsNames:
+  - tthd-app.link # Route53に登録したドメイン
+  - "*.tthd-app.link"  # commonNameに指定した名前がdnsNamesにないと失敗します。
+  # Issuer references are always required.
+  issuerRef:
+    name: letsencrypt-issuer
+    kind: ClusterIssuer
