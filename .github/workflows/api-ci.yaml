@@ -24,6 +24,6 @@ jobs:
       - name: Test
         run: |
           go test -v ./...
-        working-directory: ./go_api
+        working-directory: go_api
         env:
           GOPATH: /home/runner/work/woodpecker/go
