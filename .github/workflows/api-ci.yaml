@@ -18,11 +18,8 @@ jobs:
         with:
           go-version: 1.20
 
-      - name: ent
-        run: go install entgo.io/ent/cmd/ent@latest
-
       - name: Build
-        run: go build -v ./...
+        run: cd go_api && go build -v ./...
 
       - name: Test
         run: cd go_api && go test -v ./...
