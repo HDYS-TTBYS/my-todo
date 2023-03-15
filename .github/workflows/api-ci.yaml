@@ -12,9 +12,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        with:
-          fetch-depth: 1
-          path: go/src/HDYS-TTBYS/my-todo
 
       - name: Set up Go
         uses: actions/setup-go@v3
