@@ -15,3 +15,9 @@ jobs:
 
       - name: Test
         run: make test
+
+      - name: Docker login
+        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: docker-build-and-push
+        run: make docker-build-and-push
