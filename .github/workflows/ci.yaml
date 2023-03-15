@@ -37,8 +37,8 @@ jobs:
       - name: api Build and push
         uses: docker/build-push-action@v4
         with:
-          context: .
-          path: go_api
+          context: ./go_api
+          file: go_api/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/my-todo-go-api:${{ github.sha }}
           no-cache: true
@@ -46,8 +46,8 @@ jobs:
       - name: web Build and push
         uses: docker/build-push-action@v4
         with:
-          context: .
-          path: web
+          context: ./web
+          file: web/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/my-todo-web:${{ github.sha }}
           no-cache: true
