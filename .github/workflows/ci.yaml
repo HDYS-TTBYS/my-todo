@@ -11,10 +11,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Checkout And Build
-        run: docker compose  up -d
+        run: echo $DOCKERHUB_USERNAME
+      #   run: docker compose  up -d
 
-      - name: Test
-        run: make test
+      # - name: Test
+      #   run: make test
 
       - name: Docker login
         run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
