@@ -85,3 +85,5 @@ kubectl apply -f manifests/certificate.yaml
 ```bash
 make deploy
 ```
+
+.
