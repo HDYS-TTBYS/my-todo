@@ -12,8 +12,9 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      # - uses: actions/checkout@v3
-      # - name: Checkout And Build
+      - uses: actions/checkout@v3
+      - name: Checkout And Build
+        run: echo hdys
       #   run: docker compose  up -d
 
       # - name: Test
