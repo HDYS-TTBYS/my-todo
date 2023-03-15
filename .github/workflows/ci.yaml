@@ -41,6 +41,7 @@ jobs:
           file: ./go_api/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/my-todo-go-api:${{ github.sha }}
+          no-cache: true
 
       - name: web Build and push
         uses: docker/build-push-action@v4
@@ -49,3 +50,4 @@ jobs:
           file: ./web/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/my-todo-web:${{ github.sha }}
+          no-cache: true
