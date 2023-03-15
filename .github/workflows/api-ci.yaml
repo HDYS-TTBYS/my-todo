@@ -12,16 +12,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+          path: go/src/HDYS-TTBYS/my-todo
 
       - name: Set up Go
         uses: actions/setup-go@v3
         with:
           go-version: 1.20
 
-      - name: Build
-        run: go build -v ./...
-        working-directory: ./go_api
-
       - name: Test
-        run: go test -v ./...
+        run: |
+          go test -v ./...
         working-directory: ./go_api
+        env:
+          GOPATH: /home/runner/work/woodpecker/go
