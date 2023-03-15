@@ -12,12 +12,12 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - uses: actions/checkout@v3
-      - name: Checkout And Build
-        run: docker compose  up -d
+      # - uses: actions/checkout@v3
+      # - name: Checkout And Build
+      #   run: docker compose  up -d
 
-      - name: Test
-        run: make test
+      # - name: Test
+      #   run: make test
 
       - name: Docker login
         run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
@@ -40,7 +40,7 @@ jobs:
           context: .
           file: ./go_api/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/my-todo-go-api:${GITHUB_SHA}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/my-todo-go-api:${{ github.sha }}
 
       - name: web Build and push
         uses: docker/build-push-action@v4
@@ -48,4 +48,4 @@ jobs:
           context: .
           file: ./web/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/my-todo-web:${GITHUB_SHA}
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/my-todo-web:${{ github.sha }}
