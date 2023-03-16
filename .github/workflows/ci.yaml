@@ -14,14 +14,13 @@ jobs:
 
       - uses: actions/checkout@v3
       - name: Checkout And Build
-        run: echo hello
-      #   run: docker compose  up -d
+        run: docker compose  up -d
 
-      # - name: down
-      #   run: docker compose  down
+      - name: down
+        run: docker compose  down
 
-      # - name: Test
-      #   run: make test
+      - name: Test
+        run: make test
 
       - name: Docker login
         run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}

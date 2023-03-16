@@ -10,9 +10,10 @@ spec:
   tls:
     - hosts:
         - "tthd-app.link"
-      secretName: tthd-app-tls
+        - "todo.tthd-app.link"
+      secretName: tthd-app-tls-wc
   rules:
-    - host: tthd-app.link
+    - host: todo.tthd-app.link
       http:
         paths:
           - path: /

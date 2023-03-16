@@ -1,6 +1,12 @@
 # my-todo
 
-作成中(apiは完成済み)
+作成中(apiは完成済み　フロントエンドは未着手)
+
+aws lightsail 2G インスタンス k3sで公開中
+
+<https://todo.tthd-app.link/api/todos>
+
+<https://todo.tthd-app.link/>
 
 ## dev
 
@@ -153,8 +159,14 @@ kubectl apply -f manifests/certificate.yaml
 
 9. github actionsにsecretを追加する
 
+```bash
 DOCKERHUB_USERNAME=*************
 
 DOCKERHUB_PASSWORD=*************
 
 KUBE_CONFIG=cat $HOME/.kube/config | base64
+```
+
+10. CD
+
+main branch にpush する
