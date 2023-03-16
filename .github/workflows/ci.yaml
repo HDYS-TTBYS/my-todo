@@ -16,11 +16,11 @@ jobs:
       - name: Checkout And Build
         run: docker compose  up -d
 
-      - name: down
-        run: docker compose  down
-
       - name: Test
         run: make test
+
+      - name: down
+        run: docker compose  down
 
       - name: Docker login
         run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
