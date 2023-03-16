@@ -91,7 +91,7 @@ make deploy
 1. kubernetes cluster を用意(k3s)
 
 ```bash
-curl -sfL https://get.k3s.io | sh -s - --disable traefik --tls-san SERVER_IP
+curl -sfL https://get.k3s.io | sh -s - --disable traefik --tls-san "todo.tthd-app.link"
 ```
 
 2. pgo をインストールする
@@ -111,12 +111,13 @@ kubectl apply -f manifests/postgres.yaml
 ```bash
 helm repo add jetstack https://charts.jetstack.io
 helm repo update
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.11.0/cert-manager.crds.yaml
 helm install \
   cert-manager jetstack/cert-manager \
   --namespace cert-manager \
   --create-namespace \
   --version v1.11.0 \
-  --set installCRDs=true
+  #--set installCRDs=true
 ```
 
 5. nginx-ingress-controllerをインストールする
