@@ -37,3 +37,15 @@ jobs:
           file: web/Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/my-todo-web:${{ github.sha }}
+
+      - name: set up kubectl
+        uses: actions-hub/kubectl@master
+        env:
+          KUBE_CONFIG: ${{ secrets.KUBE_CONFIG }}
+        with:
+          args: get pods
+
+      - name: deploy
+        run: make deploy
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}

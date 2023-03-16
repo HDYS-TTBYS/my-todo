@@ -5,8 +5,8 @@ metadata:
 spec:
   acme:
     email: tatehide151@outlook.jp
-    server: https://acme-staging-v02.api.letsencrypt.org/directory # staging
-    # server: https://acme-v02.api.letsencrypt.org/directory # prod
+    # server: https://acme-staging-v02.api.letsencrypt.org/directory # staging
+    server: https://acme-v02.api.letsencrypt.org/directory # prod
     privateKeySecretRef:
       name: tthd-app-isser-account-key
     solvers:
