@@ -16,6 +16,21 @@ type todoRepository struct {
 	ctx context.Context
 }
 
+type TodoOmitDesc struct {
+	// ID of the ent.
+	ID int `json:"id,omitempty"`
+	// AssaginPerson holds the value of the "assagin_person" field.
+	AssaginPerson string `json:"assagin_person,omitempty"`
+	// CreatedAt holds the value of the "created_at" field.
+	CreatedAt time.Time `json:"created_at,omitempty"`
+	// IsComplete holds the value of the "is_complete" field.
+	IsComplete bool `json:"is_complete,omitempty"`
+	// Title holds the value of the "title" field.
+	Title string `json:"title,omitempty"`
+	// UpdatedAt holds the value of the "updated_at" field.
+	UpdatedAt time.Time `json:"updated_at,omitempty"`
+}
+
 func NewTodoRepository(ec *ent.Client, ctx context.Context) repository.ITodoRepository {
 	return &todoRepository{ec, ctx}
 }
@@ -34,6 +49,19 @@ func dataTransform(t *ent.Todo) *entities.ToDo {
 		UpdatedAt:     &ua}
 }
 
+func dataTransformF(t *TodoOmitDesc) *entities.ToDo {
+	ca := t.CreatedAt.Unix()
+	ua := t.UpdatedAt.Unix()
+	return &entities.ToDo{
+		AssaginPerson: &t.AssaginPerson,
+		CreatedAt:     &ca,
+		Description:   nil,
+		Id:            &t.ID,
+		IsComplete:    &t.IsComplete,
+		Title:         t.Title,
+		UpdatedAt:     &ua}
+}
+
 func (tr *todoRepository) TotalCount() (*int, error) {
 	total, err := tr.ec.Todo.Query().Count(tr.ctx)
 	if err != nil {
@@ -43,17 +71,19 @@ func (tr *todoRepository) TotalCount() (*int, error) {
 }
 
 func (tr *todoRepository) FindMany(offset int) ([]*entities.ToDo, error) {
-	t, err := tr.ec.Todo.Query().
+	var t []TodoOmitDesc
+	err := tr.ec.Todo.Query().
 		Limit(20).
 		Offset(offset).
 		Order(ent.Desc("created_at")).
-		All(tr.ctx)
+		Select("assagin_person", "created_at", "is_complete", "title", "updated_at").
+		Scan(tr.ctx, &t)
 	if err != nil {
 		return nil, echo.NewHTTPError(http.StatusInternalServerError, "failed querying todos")
 	}
 	var todos []*entities.ToDo
 	for _, v := range t {
-		todos = append(todos, dataTransform(v))
+		todos = append(todos, dataTransformF(&v))
 	}
 	return todos, err
 }

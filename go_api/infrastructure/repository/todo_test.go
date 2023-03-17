@@ -78,7 +78,7 @@ func TestTodoRepository_FindMany(t *testing.T) {
 				todos, err := r.FindMany(0)
 				if assert.NoError(ttt, err) {
 					assert.Equal(ttt, "hdys", *todos[0].AssaginPerson)
-					assert.Equal(ttt, "test description", *todos[0].Description)
+					assert.Nil(ttt, todos[0].Description)
 					assert.Equal(ttt, "test title", todos[0].Title)
 				}
 			}
