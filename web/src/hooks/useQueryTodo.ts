@@ -8,7 +8,7 @@ export const useQueryTodo = (id: number) => {
   }
 
   return useQuery({
-    queryKey: "todos",
+    queryKey: "todo",
     queryFn: getTodo,
   })
 }
