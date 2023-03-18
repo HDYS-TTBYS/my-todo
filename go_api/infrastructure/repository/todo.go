@@ -76,7 +76,7 @@ func (tr *todoRepository) FindMany(offset int) ([]*entities.ToDo, error) {
 		Limit(20).
 		Offset(offset).
 		Order(ent.Desc("created_at")).
-		Select("assagin_person", "created_at", "is_complete", "title", "updated_at").
+		Select("id", "assagin_person", "created_at", "is_complete", "title", "updated_at").
 		Scan(tr.ctx, &t)
 	if err != nil {
 		return nil, echo.NewHTTPError(http.StatusInternalServerError, "failed querying todos")

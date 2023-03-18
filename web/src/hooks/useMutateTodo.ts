@@ -1,13 +1,13 @@
-import { todoApi } from "../api-config";
 import { useQueryClient, useMutation } from "react-query";
 import { PostTodoOperationRequest, ToDo, UpdateTodoIdOperationRequest, DeleteTodoIdRequest } from "../types/typescript-fetch";
+import axios from "axios";
 
 export const useMutateTodo = () => {
   const queryClient = useQueryClient()
 
   const useMutateCreateTodo = useMutation(
     (todo: PostTodoOperationRequest) =>
-      todoApi.postTodo(todo),
+      axios.post(`${process.env.REACT_APP_REST_URL}/api/todo`, todo.postTodoRequest) as Promise<ToDo>,
     {
       onSuccess: (res: ToDo) => {
         queryClient.invalidateQueries('todos')
@@ -17,7 +17,7 @@ export const useMutateTodo = () => {
 
   const useMutateUpdateTodo = useMutation(
     (todo: UpdateTodoIdOperationRequest) =>
-      todoApi.updateTodoId(todo),
+      axios.patch(`${process.env.REACT_APP_REST_URL}/api/todo/${todo.id}`, todo.updateTodoIdRequest!) as Promise<ToDo>,
     {
       onSuccess: (res: ToDo) => {
         queryClient.invalidateQueries('todos')
@@ -27,7 +27,7 @@ export const useMutateTodo = () => {
 
   const useMutateDeleteTodo = useMutation(
     (id: DeleteTodoIdRequest) =>
-      todoApi.deleteTodoId(id),
+      axios.delete(`${process.env.REACT_APP_REST_URL}/api/todo/${id.id}`) as Promise<Error>,
     {
       onSuccess: (res: Error) => {
         queryClient.invalidateQueries('todos')

@@ -14,9 +14,6 @@ test: ## test
 go-gen: ## oapi-codegenでgoのコードを生成する
 	oapi-codegen -package entities -generate types openapi.yaml > go_api/domain/entities/todo_gen.go
 
-axios-gen: ## OpenAPI Generator TypeScript Axiosで型付きリクエストの自動生成 
-	openapi-generator-cli generate -g typescript-axios -i ./openapi.yaml -o ./web/src/types/typescript-axios
-
 fetch-gen: ## OpenAPI Generator TypeScript fetchで型付きリクエストの自動生成 
 	openapi-generator-cli generate -g typescript-fetch  -i ./openapi.yaml -o ./web/src/types/typescript-fetch 
 
