@@ -12,6 +12,11 @@ spec:
         - "tthd-app.link"
         - "todo.tthd-app.link"
       secretName: tthd-app-tls-wc
+  defaultBackend:
+    service:
+      name: web-service
+      port:
+        number: 80
   rules:
     - host: todo.tthd-app.link
       http:
@@ -21,12 +26,5 @@ spec:
             backend:
               service:
                 name: api-service
-                port:
-                  number: 80
-          - path: /*
-            pathType: Prefix
-            backend:
-              service:
-                name: web-service
                 port:
                   number: 80
