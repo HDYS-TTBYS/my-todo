@@ -4,8 +4,8 @@ import { useQuery } from "react-query";
 export const useQueryTodos = (offset: number) => {
   const getTodos = async () => {
     console.log(offset)
-    const data = await todoApi.getTodos(offset)
-    return data.data
+    const data = await todoApi.getTodos({ offset: offset })
+    return data
   }
 
   return useQuery({

@@ -1,0 +1,11 @@
+.openapi-generator-ignore
+apis/TodoApi.ts
+apis/index.ts
+index.ts
+models/GetTodos200Response.ts
+models/ModelError.ts
+models/PostTodoRequest.ts
+models/ToDo.ts
+models/UpdateTodoIdRequest.ts
+models/index.ts
+runtime.ts

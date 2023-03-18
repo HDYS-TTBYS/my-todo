@@ -17,9 +17,8 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-
+      learn react
       <Example />
-
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
 
