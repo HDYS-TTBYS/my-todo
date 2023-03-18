@@ -1,3 +1,4 @@
+import NavBar from '../components/NavBar';
 import { useQueryTodos } from '../hooks/useQueryTotos';
 
 const Index = () => {
@@ -5,6 +6,7 @@ const Index = () => {
 
   return (
     <div>
+      <NavBar />
       {JSON.stringify(data)}
     </div>
   )
