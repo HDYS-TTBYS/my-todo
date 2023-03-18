@@ -22,13 +22,6 @@ spec:
     - host: todo.tthd-app.link
       http:
         paths:
-          - path: /todo/.*
-            pathType: Prefix
-            backend:
-              service:
-                name: web-service
-                port:
-                  number: 80
           - path: /api
             pathType: Prefix
             backend:

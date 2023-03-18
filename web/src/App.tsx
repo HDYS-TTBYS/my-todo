@@ -27,19 +27,19 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />
   },
   {
-    path: "/todo/create",
+    path: "/create",
     element: <Create />,
   },
   {
-    path: "/todo/delete/:id",
+    path: "/delete/:id",
     element: <Delete />,
   },
   {
-    path: "/todo/detail/:id",
+    path: "/detail/:id",
     element: <Detail />,
   },
   {
-    path: "/todo/update/:id",
+    path: "/update/:id",
     element: <Update />,
   },
 ]);
