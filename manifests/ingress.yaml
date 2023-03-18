@@ -5,6 +5,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: "nginx"
     cert-manager.io/cluster-issuer: letsencrypt-issuer
+    nginx.ingress.kubernetes.io/use-regex: "true"
 
 spec:
   tls:
@@ -21,6 +22,13 @@ spec:
     - host: todo.tthd-app.link
       http:
         paths:
+          - path: /todo/.*
+            pathType: Prefix
+            backend:
+              service:
+                name: web-service
+                port:
+                  number: 80
           - path: /api
             pathType: Prefix
             backend:
