@@ -1,18 +1,36 @@
-import React from 'react'
+import { NavLink } from "react-router-dom";
 
 const NavBar = () => {
   return (
     <div>
-      <nav className="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+      <nav className="navbar navbar-expand navbar-dark bg-dark" aria-label="Second navbar example">
         <div className="container-fluid">
           <a className="navbar-brand" href="/">My Todo</a>
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample02" aria-controls="navbarsExample02" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className="collapse navbar-collapse" id="navbarCollapse">
-            <ul className="navbar-nav me-auto mb-2 mb-md-0">
+
+          <div className="collapse navbar-collapse" id="navbarsExample02">
+            <ul className="navbar-nav me-auto">
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="/create">Create</a>
+                <NavLink
+                  to="/"
+                  className={({ isActive, isPending }) =>
+                    isPending ? "nav-link" : isActive ? "nav-link active" : "nav-link"
+                  }
+                >
+                  Home
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <NavLink
+                  to="/create"
+                  className={({ isActive, isPending }) =>
+                    isPending ? "nav-link" : isActive ? "nav-link active" : "nav-link"
+                  }
+                >
+                  Create
+                </NavLink>
               </li>
             </ul>
           </div>
