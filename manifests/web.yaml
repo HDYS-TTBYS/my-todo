@@ -32,6 +32,9 @@ spec:
     spec:
       containers:
         - image: ${DOCKERHUB_USERNAME}/my-todo-web:${GITHUB_SHA}
+          env:
+            - name: REACT_APP_REST_URL
+              value: "https://todo.tthd-app.link"
           name: web
           imagePullPolicy: Always
           resources:
