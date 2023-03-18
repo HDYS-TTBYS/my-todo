@@ -50,6 +50,8 @@ spec:
                 {
                   secretKeyRef: { name: todo-db-pguser-todo-db, key: password },
                 }
+            - name: ALLOWORIGINS
+              value: "https://todo.tthd-app.link"
           name: api
           imagePullPolicy: Always
           resources:
