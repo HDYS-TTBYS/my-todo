@@ -14,8 +14,8 @@ test: ## test
 go-gen: ## oapi-codegenでgoのコードを生成する
 	oapi-codegen -package entities -generate types openapi.yaml > go_api/domain/entities/todo_gen.go
 
-fetch-gen: ## OpenAPI Generator TypeScript fetchで型付きリクエストの自動生成 
-	openapi-generator-cli generate -g typescript-fetch  -i ./openapi.yaml -o ./web/src/types/typescript-fetch 
+typescript-gen: ## openapi-typescript-codegenで型付きリクエストの自動生成 
+	npx openapi-typescript-codegen --input ./openapi.yaml --output ./web/src/generated --name AppClient
 
 ent-gen: ## entのschemaからコードを生成する
 	docker exec -i my-todo-api-1 /bin/bash -c "cd /go/src/app && go generate ./ent"

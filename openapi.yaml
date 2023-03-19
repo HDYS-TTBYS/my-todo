@@ -318,5 +318,4 @@ components:
           example: Todoが1件も存在しません
           readOnly: true
       required:
-        - state
         - message
