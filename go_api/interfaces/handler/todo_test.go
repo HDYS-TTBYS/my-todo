@@ -40,7 +40,7 @@ func TestTodoHandler_FindMany(t *testing.T) {
 			h := handler.NewTodoHandler(mockUsecase)
 			if assert.NoError(tt, h.FindMany(c)) {
 				assert.Equal(tt, http.StatusOK, rec.Code)
-				assert.Equal(tt, fmt.Sprintln(`{"total":0,"ToDos":[]}`), rec.Body.String())
+				assert.Equal(tt, fmt.Sprintln(`{"total":0,"todos":[]}`), rec.Body.String())
 			}
 		},
 	)
@@ -65,7 +65,7 @@ func TestTodoHandler_FindMany(t *testing.T) {
 			h := handler.NewTodoHandler(mockUsecase)
 			if assert.NoError(tt, h.FindMany(c)) {
 				assert.Equal(tt, http.StatusOK, rec.Code)
-				assert.Equal(tt, fmt.Sprintln(`{"total":0,"ToDos":[]}`), rec.Body.String())
+				assert.Equal(tt, fmt.Sprintln(`{"total":0,"todos":[]}`), rec.Body.String())
 			}
 		},
 	)

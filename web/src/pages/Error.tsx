@@ -4,10 +4,14 @@ export default function ErrorPage() {
 
 
   return (
-    <div id="error-page">
+    <>
       <NavBar />
-      <h1>申し訳ございません。</h1>
-      <p>お探しのページは見つかりませんでした。</p>
-    </div>
+      <div className="container">
+        <div id="d-flex align-items-center justify-content-center">
+          <h1 className="d-flex mt-5 align-items-center justify-content-center">申し訳ございません。</h1>
+          <p className="d-flex mt-3 align-items-center justify-content-center">お探しのページは見つかりませんでした。</p>
+        </div>
+      </div>
+    </>
   );
 }

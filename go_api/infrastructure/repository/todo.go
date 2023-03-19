@@ -5,6 +5,7 @@ import (
 	"HDYS-TTBYS/my-todo/domain/repository"
 	"HDYS-TTBYS/my-todo/ent"
 	"context"
+	"fmt"
 	"net/http"
 	"time"
 
@@ -49,7 +50,7 @@ func dataTransform(t *ent.Todo) *entities.ToDo {
 		UpdatedAt:     &ua}
 }
 
-func dataTransformF(t *TodoOmitDesc) *entities.ToDo {
+func dataTransformF(t TodoOmitDesc) *entities.ToDo {
 	ca := t.CreatedAt.Unix()
 	ua := t.UpdatedAt.Unix()
 	return &entities.ToDo{
@@ -83,8 +84,9 @@ func (tr *todoRepository) FindMany(offset int) ([]*entities.ToDo, error) {
 	}
 	var todos []*entities.ToDo
 	for _, v := range t {
-		todos = append(todos, dataTransformF(&v))
+		todos = append(todos, dataTransformF(v))
 	}
+	fmt.Println(todos)
 	return todos, err
 }
 
