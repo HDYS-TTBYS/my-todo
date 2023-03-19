@@ -5,13 +5,13 @@ import { useQueryTodo } from '../hooks/useQueryTodo'
 
 
 
-const Detail = () => {
+const Detail: FC = () => {
   const { id } = useParams();
   const { data, isLoading, error } = useQueryTodo(Number(id))
 
   if (isLoading) return <div> 'Loading...'</div>
 
-  if (error) return <div>'An error has occurred: ' + error</div>
+  if (error) return <div>'error has occurred: ' + error</div>
 
   return (
     <>
