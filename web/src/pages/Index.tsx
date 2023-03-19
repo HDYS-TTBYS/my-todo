@@ -14,7 +14,6 @@ const Index = () => {
   if (error) return <div>'An error has occurred: ' + error</div>
   return (
     <>
-
       <NavBar />
       <div className="container">
         <Since />
