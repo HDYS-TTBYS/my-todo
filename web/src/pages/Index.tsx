@@ -4,12 +4,16 @@ import Pagination from "../components/Pagination ";
 import Since from '../components/Since';
 import TodoItem from '../components/TodoItem';
 import { ToDo } from '../generated';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import Loading from '../components/Loading';
 
 
 const Index = () => {
-  const { data, isLoading, error } = useQueryTodos(0)
+  const [searchParams, setSearchParams] = useSearchParams();
+  const offset = Number(searchParams.get("offset"));
+  const { data, isLoading, error } = useQueryTodos(offset);
+
+  console.log(offset)
 
   if (isLoading) return <Loading />
 
@@ -33,7 +37,7 @@ const Index = () => {
 
         <div className='d-flex align-items-center justify-content-between'>
           <Link to={"/create"} type="button" className="btn btn-primary btn-lg">新規作成</Link>
-          <Pagination />
+          <Pagination totalCount={data?.total!} />
         </div>
       </div>
 

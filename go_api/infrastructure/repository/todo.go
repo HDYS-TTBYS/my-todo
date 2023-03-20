@@ -74,7 +74,7 @@ func (tr *todoRepository) TotalCount() (*int, error) {
 func (tr *todoRepository) FindMany(offset int) ([]*entities.ToDo, error) {
 	var t []TodoOmitDesc
 	err := tr.ec.Todo.Query().
-		Limit(20).
+		Limit(5).
 		Offset(offset).
 		Order(ent.Desc("created_at")).
 		Select("id", "assagin_person", "created_at", "is_complete", "title", "updated_at").

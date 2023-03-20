@@ -211,7 +211,7 @@ paths:
       operationId: get-todos
       description: |-
         すべてのToDoを created_at descで取得する
-        ただし、ToDoの総数が20を超えると、それ以上のToDoは返却されない
+        ただし、ToDoの総数が5を超えると、それ以上のToDoは返却されない
       tags: [todo]
       parameters:
         - in: query
