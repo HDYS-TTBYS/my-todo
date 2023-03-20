@@ -15,48 +15,51 @@ const TodoItem: FC<Props> = ({ todo }) => {
 
 
   return (
-    <div className="d-flex text-muted pt-3">
+    <tr>
+      <th scope="row">{todo.id}</th>
+      <td>
+        <Link to={`/detail/${todo.id}`}>
+          <IconContext.Provider value={{ size: "20px" }}>
+            <BiDetail />
+          </IconContext.Provider>
+          <strong className="text-gray-dark">{todo.title}</strong>
+          <span className="d-block">@{todo.assagin_person}</span>
+        </Link>
+      </td>
 
-      <div className="pb-3 mb-0 small lh-sm border-bottom w-100">
-
-        <div className="d-flex justify-content-between">
-          <Link to={`/detail/${todo.id}`}>
-            <IconContext.Provider value={{ size: "20px" }}>
-              <BiDetail />
-            </IconContext.Provider>
-            <strong className="text-gray-dark">{todo.title}</strong>
-            <span className="d-block">@{todo.assagin_person}</span>
-
-          </Link>
-
-          <div className="form-check form-switch d-flex align-items-center">
-            <input className="form-check-input" type="checkbox" disabled id="flexSwitchCheckDefault" defaultChecked={todo.is_complete} />
-          </div>
-
-          <Link to={`/update/${todo.id}`} className='d-flex align-items-center'>
-            <IconContext.Provider value={{ size: "20px" }}>
-              <GrDocumentUpdate />
-            </IconContext.Provider>
-          </Link>
-
-          <div className='d-flex flex-column'>
-            <div className='d-flex small  justify-content-end'>
-              create:{new Date(todo.created_at * 1000).toLocaleDateString()}
-            </div>
-            <div className='d-flex small justify-content-end'>
-              update:{new Date(todo?.updated_at! * 1000).toLocaleDateString()}
-            </div>
-          </div>
-
-          <Link to={`/delete/${todo.id}`} className='d-flex align-items-center'>
-            <IconContext.Provider value={{ size: "20px" }}>
-              <BsFillTrash2Fill />
-            </IconContext.Provider>
-          </Link>
+      <td>
+        <div className="form-check form-switch d-flex align-items-center justify-content-center">
+          <input className="form-check-input" type="checkbox" disabled id="flexSwitchCheckDefault" defaultChecked={todo.is_complete} />
         </div>
+      </td>
 
-      </div>
-    </div >
+      <td>
+        <Link to={`/update/${todo.id}`} className='d-flex align-items-center  justify-content-center'>
+          <IconContext.Provider value={{ size: "20px" }}>
+            <GrDocumentUpdate />
+          </IconContext.Provider>
+        </Link>
+      </td>
+
+      <td>
+        <div className='d-flex flex-column'>
+          <div className='d-flex small justify-content-end'>
+            create:{new Date(todo.created_at * 1000).toLocaleDateString()}
+          </div>
+          <div className='d-flex small justify-content-end'>
+            update:{new Date(todo?.updated_at! * 1000).toLocaleDateString()}
+          </div>
+        </div>
+      </td>
+
+      <td>
+        <Link to={`/delete/${todo.id}`} className='d-flex align-items-center justify-content-center'>
+          <IconContext.Provider value={{ size: "20px" }}>
+            <BsFillTrash2Fill />
+          </IconContext.Provider>
+        </Link>
+      </td>
+    </tr >
   )
 }
 

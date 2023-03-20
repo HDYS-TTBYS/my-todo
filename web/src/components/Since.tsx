@@ -11,7 +11,7 @@ const Since: FC<Props> = ({ title }) => {
         <h1 className="h6 mb-0 text-white lh-1">My Todo</h1>
         <small>Since 2023</small>
       </div>
-      <small className='px-3'>{title}</small>
+      <h5 className='px-3'>{title}</h5>
     </div>
   )
 }

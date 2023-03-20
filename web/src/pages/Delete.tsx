@@ -20,10 +20,10 @@ const Delete = () => {
     <>
       <NavBar />
       <div className='container'>
-        <Since title='削除ページ' />
+        <Since title='Delete Page' />
         <div className='d-flex mt-5 justify-content-evenly'>
-          <button type="button" className="btn-lg btn-danger" onClick={() => useMutateDeleteTodo.mutate(Number(id))} >削除</button>
-          <Link to={"/"} type="button" className="btn-lg btn-secondary">キャンセル</Link>
+          <button type="button" className="btn-lg btn-danger" onClick={() => useMutateDeleteTodo.mutate(Number(id))} >Delete</button>
+          <Link to={"/"} type="button" className="btn-lg btn-secondary">Cancel</Link>
         </div>
       </div>
     </>

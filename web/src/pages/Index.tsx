@@ -20,21 +20,33 @@ const Index = () => {
     <>
       <NavBar />
       <div className="container">
-        <Since title='トップページ' />
+        <Since title='Top Page' />
 
         <div className="my-3 p-3 bg-body rounded shadow-sm">
           <h6 className="border-bottom pb-2 mb-0">Todos</h6>
 
-          {data?.todos?.map((todo: ToDo) => (
-            <div key={todo.id}>
-              <TodoItem todo={todo} />
-            </div>
-          ))}
+          <table className='table'>
+            <thead>
+              <tr>
+                <th scope="col">Id</th>
+                <th scope="col">Detail</th>
+                <th scope="col">Completed</th>
+                <th scope="col">Update</th>
+                <th scope="col">Time</th>
+                <th scope="col">Delete</th>
+              </tr>
+            </thead>
+            {data?.todos?.map((todo: ToDo) => (
+              <tbody key={todo.id}>
+                <TodoItem todo={todo} />
+              </tbody>
+            ))}
+          </table>
 
         </div>
 
         <div className='d-flex align-items-center justify-content-between'>
-          <Link to={"/create"} type="button" className="btn btn-primary btn-lg">新規作成</Link>
+          <Link to={"/create"} type="button" className="btn btn-primary">Create</Link>
           <Pagination totalCount={data?.total!} />
         </div>
       </div>
