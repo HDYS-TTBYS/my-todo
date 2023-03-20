@@ -18,11 +18,16 @@ const TodoItem: FC<Props> = ({ todo }) => {
     <tr>
       <td>
         <Link to={`/detail/${todo.id}`}>
-          <IconContext.Provider value={{ size: "20px" }}>
-            <BiDetail />
-          </IconContext.Provider>
-          <strong className="text-gray-dark">{todo.title}</strong>
-          <span className="d-block">@{todo.assagin_person}</span>
+          <div className="d-flex">
+            <IconContext.Provider value={{ size: "20px" }}>
+              <BiDetail />
+            </IconContext.Provider>
+            <span className="d-block small">@{todo.assagin_person}</span>
+          </div>
+
+          <div className="container">
+            <strong className="text-gray-dark d-flex small">{todo.title}</strong>
+          </div>
         </Link>
       </td>
 
@@ -41,13 +46,8 @@ const TodoItem: FC<Props> = ({ todo }) => {
       </td>
 
       <td>
-        <div className='d-flex flex-column'>
-          <div className='d-flex small justify-content-end'>
-            create:{new Date(todo.created_at * 1000).toLocaleDateString()}
-          </div>
-          <div className='d-flex small justify-content-end'>
-            update:{new Date(todo?.updated_at! * 1000).toLocaleDateString()}
-          </div>
+        <div className='d-flex small justify-content-end'>
+          {new Date(todo.created_at * 1000).toLocaleDateString()}
         </div>
       </td>
 

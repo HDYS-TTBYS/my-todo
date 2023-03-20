@@ -30,9 +30,9 @@ const Index = () => {
               <thead>
                 <tr>
                   <th scope="col" className='small'>Detail</th>
-                  <th scope="col" className='small'>Completed</th>
+                  <th scope="col" className='small'>Complet</th>
                   <th scope="col" className='small'>Update</th>
-                  <th scope="col" className='small'>Time</th>
+                  <th scope="col" className='small'>Create</th>
                   <th scope="col" className='small'>Delete</th>
                 </tr>
               </thead>
