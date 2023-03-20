@@ -1,12 +1,10 @@
 # my-todo
 
-作成中(apiは完成済み　フロントエンドは未着手)
+aws lightsail メモリ2G インスタンス k3sで公開中
 
-aws lightsail 2G インスタンス k3sで公開中
+api:<https://todo.tthd-app.link/api/todos>
 
-<https://todo.tthd-app.link/api/todos>
-
-<https://todo.tthd-app.link/>
+frontend:<https://todo.tthd-app.link>
 
 ## dev
 
