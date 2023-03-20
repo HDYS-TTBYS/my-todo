@@ -4,6 +4,7 @@ import Pagination from "../components/Pagination ";
 import Since from '../components/Since';
 import TodoItem from '../components/TodoItem';
 import { ToDo } from '../generated';
+import { Link } from 'react-router-dom';
 
 
 const Index = () => {
@@ -29,7 +30,10 @@ const Index = () => {
 
         </div>
 
-        <Pagination />
+        <div className='d-flex align-items-center justify-content-between'>
+          <Link to={"/create"} type="button" className="btn btn-primary btn-lg">新規作成</Link>
+          <Pagination />
+        </div>
       </div>
 
     </>
