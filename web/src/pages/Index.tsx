@@ -5,19 +5,20 @@ import Since from '../components/Since';
 import TodoItem from '../components/TodoItem';
 import { ToDo } from '../generated';
 import { Link } from 'react-router-dom';
+import Loading from '../components/Loading';
 
 
 const Index = () => {
   const { data, isLoading, error } = useQueryTodos(0)
 
-  if (isLoading) return <div> 'Loading...'</div>
+  if (isLoading) return <Loading />
 
-  if (error) return <div>'An error has occurred: ' + error</div>
+  if (error) return <p>error</p>
   return (
     <>
       <NavBar />
       <div className="container">
-        <Since />
+        <Since title='トップページ' />
 
         <div className="my-3 p-3 bg-body rounded shadow-sm">
           <h6 className="border-bottom pb-2 mb-0">Todos</h6>

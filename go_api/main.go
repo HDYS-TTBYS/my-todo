@@ -57,7 +57,7 @@ func main() {
 		AllowOrigins:     strings.Split(os.Getenv("ALLOWORIGINS"), " "),
 		AllowHeaders:     []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
 		AllowCredentials: true,
-		AllowMethods:     []string{"GET", "PUT", "POST", "DELETE", "UPDATE", "OPTIONS"},
+		AllowMethods:     []string{"GET", "PUT", "POST", "DELETE", "UPDATE", "OPTIONS", "PATCH"},
 	}))
 
 	e.Use(middleware.Logger())

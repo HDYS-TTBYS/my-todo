@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import Loading from '../components/Loading'
 import NavBar from '../components/NavBar'
+import Since from '../components/Since'
 import { CreateRequestBody, useMutateTodo } from '../hooks/useMutateTodo'
 
 const Create = () => {
@@ -9,27 +11,28 @@ const Create = () => {
   const [createTodo, setCreateTodo] = useState<CreateRequestBody>({ title: "", assigin_person: "", description: "" });
   const isOk = createTodo.title !== "" && createTodo.assigin_person !== ""
 
-  if (useMutateCreateTodo.isSuccess) { router("/") }
+  useEffect(() => {
+    if (useMutateCreateTodo.isSuccess) { router("/") }
+  }, [useMutateCreateTodo.isSuccess, router])
 
-  if (useMutateCreateTodo.isLoading) {
-    return <p>Creating...</p>
-  }
+  if (useMutateCreateTodo.isLoading) return <Loading />
 
   return (
     <>
       <NavBar />
       <div className='container'>
+        <Since title="新規作成ページ" />
         <div className="mb-3 mt-5">
           <label htmlFor="title" className="form-label">タイトル</label>
-          <input type="text" className="form-control" id="title" placeholder="買い物に行く" onChange={(e) => setCreateTodo({ ...createTodo, title: e.target.value })} />
+          <input type="text" className="form-control" id="title" placeholder="買い物に行く" value={createTodo.title} onChange={(e) => setCreateTodo({ ...createTodo, title: e.target.value })} />
         </div>
         <div className="mb-3">
           <label htmlFor="assigin_person" className="form-label">担当者</label>
-          <input type="text" className="form-control" id="assigin_person" placeholder="hdys" onChange={(e) => setCreateTodo({ ...createTodo, assigin_person: e.target.value })} />
+          <input type="text" className="form-control" id="assigin_person" placeholder="hdys" value={createTodo.assigin_person} onChange={(e) => setCreateTodo({ ...createTodo, assigin_person: e.target.value })} />
         </div>
         <div className="mb-3">
           <label htmlFor="description" className="form-label">説明</label>
-          <textarea className="form-control" id="description" rows={3} onChange={(e) => setCreateTodo({ ...createTodo, description: e.target.value })}></textarea>
+          <textarea className="form-control" id="description" rows={3} value={createTodo.description} onChange={(e) => setCreateTodo({ ...createTodo, description: e.target.value })}></textarea>
         </div>
         <div className='d-flex justify-content-evenly'>
           <button type="button" className="btn btn-primary btn-lg" disabled={!isOk} onClick={() => useMutateCreateTodo.mutate(createTodo)}>作成</button>
