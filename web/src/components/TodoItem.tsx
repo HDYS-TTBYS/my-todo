@@ -16,7 +16,6 @@ const TodoItem: FC<Props> = ({ todo }) => {
 
   return (
     <tr>
-      <th scope="row">{todo.id}</th>
       <td>
         <Link to={`/detail/${todo.id}`}>
           <IconContext.Provider value={{ size: "20px" }}>
@@ -34,7 +33,7 @@ const TodoItem: FC<Props> = ({ todo }) => {
       </td>
 
       <td>
-        <Link to={`/update/${todo.id}`} className='d-flex align-items-center  justify-content-center'>
+        <Link to={`/update/${todo.id}`} className='d-flex align-items-center justify-content-center'>
           <IconContext.Provider value={{ size: "20px" }}>
             <GrDocumentUpdate />
           </IconContext.Provider>
