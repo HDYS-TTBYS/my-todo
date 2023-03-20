@@ -33,7 +33,7 @@ const TodoItem: FC<Props> = ({ todo }) => {
 
       <td>
         <div className="form-check form-switch d-flex align-items-center justify-content-center">
-          <input className="form-check-input" type="checkbox" disabled id="flexSwitchCheckDefault" defaultChecked={todo.is_complete} />
+          <input className="form-check-input" type="checkbox" disabled id="flexSwitchCheckDefault" checked={todo.is_complete} />
         </div>
       </td>
 
