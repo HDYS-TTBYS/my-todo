@@ -13,8 +13,6 @@ const Index = () => {
   const offset = Number(searchParams.get("offset"));
   const { data, isLoading, error } = useQueryTodos(offset);
 
-  console.log(offset)
-
   if (isLoading) return <Loading />
 
   if (error) return <p>error</p>

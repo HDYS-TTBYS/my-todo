@@ -33,6 +33,12 @@ const TodoItem: FC<Props> = ({ todo }) => {
             <input className="form-check-input" type="checkbox" disabled id="flexSwitchCheckDefault" defaultChecked={todo.is_complete} />
           </div>
 
+          <Link to={`/update/${todo.id}`} className='d-flex align-items-center'>
+            <IconContext.Provider value={{ size: "20px" }}>
+              <GrDocumentUpdate />
+            </IconContext.Provider>
+          </Link>
+
           <div className='d-flex flex-column'>
             <div className='d-flex small  justify-content-end'>
               create:{new Date(todo.created_at * 1000).toLocaleDateString()}
@@ -41,12 +47,6 @@ const TodoItem: FC<Props> = ({ todo }) => {
               update:{new Date(todo?.updated_at! * 1000).toLocaleDateString()}
             </div>
           </div>
-
-          <Link to={`/update/${todo.id}`} className='d-flex align-items-center'>
-            <IconContext.Provider value={{ size: "20px" }}>
-              <GrDocumentUpdate />
-            </IconContext.Provider>
-          </Link>
 
           <Link to={`/delete/${todo.id}`} className='d-flex align-items-center'>
             <IconContext.Provider value={{ size: "20px" }}>
