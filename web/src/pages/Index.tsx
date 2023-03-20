@@ -29,11 +29,11 @@ const Index = () => {
             <table className='table table-sm'>
               <thead>
                 <tr>
-                  <th scope="col">Detail</th>
-                  <th scope="col">Completed</th>
-                  <th scope="col">Update</th>
-                  <th scope="col">Time</th>
-                  <th scope="col">Delete</th>
+                  <th scope="col" className='small'>Detail</th>
+                  <th scope="col" className='small'>Completed</th>
+                  <th scope="col" className='small'>Update</th>
+                  <th scope="col" className='small'>Time</th>
+                  <th scope="col" className='small'>Delete</th>
                 </tr>
               </thead>
               {data?.todos?.map((todo: ToDo) => (
