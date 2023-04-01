@@ -1,5 +1,8 @@
+import { useAtom } from "jotai";
 import { useQueryClient, useMutation } from "react-query";
 import appClient from "../app-client";
+import { ApiError } from "../generated";
+import { alertAtom } from "../store";
 
 export type CreateRequestBody = {
   title: string;
@@ -18,15 +21,28 @@ export type RequestBody = {
   is_complete: boolean;
 }
 
+const ALERT_TIMER = 3
+
 export const useMutateTodo = () => {
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
+  const [, setAlert] = useAtom(alertAtom);
 
   const useMutateCreateTodo = useMutation(
     (requestBody: CreateRequestBody) =>
       appClient.todo.postTodo(requestBody),
     {
       onSuccess: (res) => {
+        setAlert({ alert: "success", message: "todo is created" });
+        setTimeout(() => {
+          setAlert({ alert: "success", message: "" });
+        }, ALERT_TIMER * 1000);
         queryClient.invalidateQueries('todos')
+      },
+      onError: (error: ApiError) => {
+        setAlert({ alert: "danger", message: error.body.message });
+        setTimeout(() => {
+          setAlert({ alert: "danger", message: "" });
+        }, ALERT_TIMER * 1000);
       },
     }
   )
@@ -36,7 +52,17 @@ export const useMutateTodo = () => {
       appClient.todo.updateTodoId(requestBody.id, requestBody.requestbody),
     {
       onSuccess: (res) => {
+        setAlert({ alert: "success", message: "todo is updated" });
+        setTimeout(() => {
+          setAlert({ alert: "success", message: "" });
+        }, ALERT_TIMER * 1000);
         queryClient.invalidateQueries('todos')
+      },
+      onError: (error: ApiError) => {
+        setAlert({ alert: "danger", message: error.body.message });
+        setTimeout(() => {
+          setAlert({ alert: "danger", message: "" });
+        }, ALERT_TIMER * 1000);
       },
     }
   )
@@ -46,7 +72,17 @@ export const useMutateTodo = () => {
       appClient.todo.deleteTodoId(id),
     {
       onSuccess: (res) => {
+        setAlert({ alert: "success", message: "todo is deleted" });
+        setTimeout(() => {
+          setAlert({ alert: "success", message: "" });
+        }, ALERT_TIMER * 1000);
         queryClient.invalidateQueries('todos')
+      },
+      onError: (error: ApiError) => {
+        setAlert({ alert: "danger", message: error.body.message });
+        setTimeout(() => {
+          setAlert({ alert: "danger", message: "" });
+        }, ALERT_TIMER * 1000);
       },
     }
   )

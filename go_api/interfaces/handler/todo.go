@@ -63,7 +63,7 @@ func (h *todoHandler) Create(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, "bad request body")
 	}
 	if err := ptodo.Validate(); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, "bad request validate NG")
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 	ntodo, err := h.ITodoUseCase.Create((*entities.PostTodoJSONBody)(&ptodo))
 	if err != nil {
@@ -83,7 +83,7 @@ func (h *todoHandler) Update(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusBadRequest, "bad request body")
 	}
 	if err := utodo.Validate(); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, "bad request validate NG")
+		return echo.NewHTTPError(http.StatusBadRequest, err.Error())
 	}
 	rtodo, err := h.ITodoUseCase.Update((*entities.UpdateTodoIdJSONBody)(&utodo), intId)
 	if err != nil {
