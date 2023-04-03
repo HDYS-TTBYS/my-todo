@@ -1,12 +1,12 @@
 import React, { FC } from 'react'
-import { Link, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
 interface Props {
   totalCount: number
 }
 
 const Pagination: FC<Props> = ({ totalCount }) => {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const pageNum = Math.ceil(totalCount / 5)
 
   return (

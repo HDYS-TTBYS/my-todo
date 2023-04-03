@@ -15,11 +15,10 @@ const Create = () => {
     if (useMutateCreateTodo.isSuccess) { router("/") }
   }, [useMutateCreateTodo.isSuccess, router])
 
-  if (useMutateCreateTodo.isLoading) return <Loading />
-
   return (
     <>
       <NavBar />
+      {(useMutateCreateTodo.isLoading) && <Loading />}
       <div className='container'>
         <Since title="Create Page" />
         <div className="mb-3 mt-5">

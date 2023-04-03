@@ -20,14 +20,13 @@ const Update = () => {
 
   const isOk = updateTodo.title !== "" && updateTodo.assigin_person !== ""
 
-  if (isLoading) return <Loading />
-  if (useMutateUpdateTodo.isLoading) return <Loading />
-
   if (useMutateUpdateTodo.isSuccess) { router("/") }
   if (error) { router("/") }
   return (
     <>
       <NavBar />
+      {isLoading && <Loading />}
+      {useMutateUpdateTodo.isLoading && <Loading />}
       <div className='container'>
         <Since title='Update Page' />
         <div className="mb-3 mt-5">

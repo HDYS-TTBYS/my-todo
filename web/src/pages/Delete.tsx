@@ -14,11 +14,10 @@ const Delete = () => {
     if (useMutateDeleteTodo.isSuccess) { router("/") }
   }, [useMutateDeleteTodo.isSuccess, router])
 
-  if (useMutateDeleteTodo.isLoading) return <Loading />
-
   return (
     <>
       <NavBar />
+      {useMutateDeleteTodo.isLoading && <Loading />}
       <div className='container'>
         <Since title='Delete Page' />
         <div className='d-flex mt-5 justify-content-evenly'>

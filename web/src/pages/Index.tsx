@@ -19,9 +19,9 @@ const Index = () => {
   return (
     <>
       <NavBar />
+      {isLoading && <Loading />}
       <div className="container">
         <Since title='Top Page' />
-        {isLoading && <Loading />}
 
         <div className="my-3 p-3 bg-body rounded shadow-sm">
           <h6 className="border-bottom pb-2 mb-0">Todos</h6>
@@ -44,7 +44,6 @@ const Index = () => {
               ))}
             </table>
           </div>
-
 
         </div>
 
