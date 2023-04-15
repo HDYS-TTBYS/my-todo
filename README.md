@@ -24,7 +24,8 @@ make up
 1. local kubernetes cluster を用意(k3s 仮想マシン等)
 
 ```bash
-curl -sfL https://get.k3s.io | sh -s - --disable traefik
+curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION="v1.24.10+k3s1" sh -s - server --cluster-init --disable traefik
+sudo cat /etc/rancher/k3s/k3s.yaml
 ```
 
 2. pgo をインストールする
@@ -57,6 +58,7 @@ helm install \
 ```bash
 helm repo add nginx-stable https://helm.nginx.com/stable
 helm repo update
+kubectl create namespace nginx-ingress
 helm install nginx nginx-stable/nginx-ingress -n nginx-ingress
 ```
 
@@ -87,6 +89,7 @@ kubectl apply -f manifests/certificate.yaml
 9. デプロイ
 
 ```bash
+make docker-build-and-push
 make deploy
 ```
 
