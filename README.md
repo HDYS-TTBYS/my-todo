@@ -1,6 +1,6 @@
 # my-todo
 
-aws lightsail メモリ2G インスタンス k3sで公開中
+自宅サーバーで公開中
 
 api:<https://todo.tthd-app.link/api/todos>
 
